@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jade.dao.NoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.jade.mod.Notice" >
+    <id column="notice_id" property="noticeId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="notice_category" property="noticeCategory" jdbcType="VARCHAR" />
+    <result column="notice_category_id" property="noticeCategoryId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="cid" property="cid" jdbcType="VARCHAR" />
+    <result column="online" property="online" jdbcType="VARCHAR" />
+    <result column="first_notice" property="firstNotice" jdbcType="VARCHAR" />
+    <result column="second_noice" property="secondNoice" jdbcType="VARCHAR" />
+    <result column="reserve" property="reserve" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    notice_id, name, notice_category, notice_category_id, create_time, comment, img, 
+    cid, online, first_notice, second_noice, reserve
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jade.mod.NoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from notice
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from notice
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jade.mod.NoticeExample" >
+    delete from notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jade.mod.Notice" useGeneratedKeys="true" keyProperty="id" >
+    insert into notice (notice_id, name, notice_category, 
+      notice_category_id, create_time, comment, 
+      img, cid, online, first_notice, 
+      second_noice, reserve)
+    values (#{noticeId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{noticeCategory,jdbcType=VARCHAR}, 
+      #{noticeCategoryId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{comment,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{online,jdbcType=VARCHAR}, #{firstNotice,jdbcType=VARCHAR}, 
+      #{secondNoice,jdbcType=VARCHAR}, #{reserve,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jade.mod.Notice" useGeneratedKeys="true" keyProperty="id" >
+    insert into notice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="noticeId != null" >
+        notice_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="noticeCategory != null" >
+        notice_category,
+      </if>
+      <if test="noticeCategoryId != null" >
+        notice_category_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="online != null" >
+        online,
+      </if>
+      <if test="firstNotice != null" >
+        first_notice,
+      </if>
+      <if test="secondNoice != null" >
+        second_noice,
+      </if>
+      <if test="reserve != null" >
+        reserve,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="noticeId != null" >
+        #{noticeId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCategory != null" >
+        #{noticeCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCategoryId != null" >
+        #{noticeCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="online != null" >
+        #{online,jdbcType=VARCHAR},
+      </if>
+      <if test="firstNotice != null" >
+        #{firstNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="secondNoice != null" >
+        #{secondNoice,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        #{reserve,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jade.mod.NoticeExample" resultType="java.lang.Integer" >
+    select count(*) from notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update notice
+    <set >
+      <if test="record.noticeId != null" >
+        notice_id = #{record.noticeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeCategory != null" >
+        notice_category = #{record.noticeCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeCategoryId != null" >
+        notice_category_id = #{record.noticeCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.comment != null" >
+        comment = #{record.comment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.img != null" >
+        img = #{record.img,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cid != null" >
+        cid = #{record.cid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.online != null" >
+        online = #{record.online,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstNotice != null" >
+        first_notice = #{record.firstNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.secondNoice != null" >
+        second_noice = #{record.secondNoice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve != null" >
+        reserve = #{record.reserve,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update notice
+    set notice_id = #{record.noticeId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      notice_category = #{record.noticeCategory,jdbcType=VARCHAR},
+      notice_category_id = #{record.noticeCategoryId,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      comment = #{record.comment,jdbcType=VARCHAR},
+      img = #{record.img,jdbcType=VARCHAR},
+      cid = #{record.cid,jdbcType=VARCHAR},
+      online = #{record.online,jdbcType=VARCHAR},
+      first_notice = #{record.firstNotice,jdbcType=VARCHAR},
+      second_noice = #{record.secondNoice,jdbcType=VARCHAR},
+      reserve = #{record.reserve,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jade.mod.Notice" >
+    update notice
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCategory != null" >
+        notice_category = #{noticeCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCategoryId != null" >
+        notice_category_id = #{noticeCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null" >
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="online != null" >
+        online = #{online,jdbcType=VARCHAR},
+      </if>
+      <if test="firstNotice != null" >
+        first_notice = #{firstNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="secondNoice != null" >
+        second_noice = #{secondNoice,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        reserve = #{reserve,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jade.mod.Notice" >
+    update notice
+    set name = #{name,jdbcType=VARCHAR},
+      notice_category = #{noticeCategory,jdbcType=VARCHAR},
+      notice_category_id = #{noticeCategoryId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      comment = #{comment,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=VARCHAR},
+      online = #{online,jdbcType=VARCHAR},
+      first_notice = #{firstNotice,jdbcType=VARCHAR},
+      second_noice = #{secondNoice,jdbcType=VARCHAR},
+      reserve = #{reserve,jdbcType=VARCHAR}
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

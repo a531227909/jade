@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jade.dao.FirstAuthorityMapper" >
+  <resultMap id="BaseResultMap" type="com.jade.mod.FirstAuthority" >
+    <id column="first_authority_id" property="firstAuthorityId" jdbcType="VARCHAR" />
+    <result column="first_authority_name" property="firstAuthorityName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    first_authority_id, first_authority_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jade.mod.FirstAuthorityExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from first_authority
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from first_authority
+    where first_authority_id = #{firstAuthorityId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from first_authority
+    where first_authority_id = #{firstAuthorityId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jade.mod.FirstAuthorityExample" >
+    delete from first_authority
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jade.mod.FirstAuthority" useGeneratedKeys="true" keyProperty="id" >
+    insert into first_authority (first_authority_id, first_authority_name
+      )
+    values (#{firstAuthorityId,jdbcType=VARCHAR}, #{firstAuthorityName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jade.mod.FirstAuthority" useGeneratedKeys="true" keyProperty="id" >
+    insert into first_authority
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="firstAuthorityId != null" >
+        first_authority_id,
+      </if>
+      <if test="firstAuthorityName != null" >
+        first_authority_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="firstAuthorityId != null" >
+        #{firstAuthorityId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstAuthorityName != null" >
+        #{firstAuthorityName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jade.mod.FirstAuthorityExample" resultType="java.lang.Integer" >
+    select count(*) from first_authority
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update first_authority
+    <set >
+      <if test="record.firstAuthorityId != null" >
+        first_authority_id = #{record.firstAuthorityId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstAuthorityName != null" >
+        first_authority_name = #{record.firstAuthorityName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update first_authority
+    set first_authority_id = #{record.firstAuthorityId,jdbcType=VARCHAR},
+      first_authority_name = #{record.firstAuthorityName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jade.mod.FirstAuthority" >
+    update first_authority
+    <set >
+      <if test="firstAuthorityName != null" >
+        first_authority_name = #{firstAuthorityName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where first_authority_id = #{firstAuthorityId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jade.mod.FirstAuthority" >
+    update first_authority
+    set first_authority_name = #{firstAuthorityName,jdbcType=VARCHAR}
+    where first_authority_id = #{firstAuthorityId,jdbcType=VARCHAR}
+  </update>
+</mapper>

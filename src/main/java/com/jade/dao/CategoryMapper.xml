@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jade.dao.CategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.jade.mod.Category" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="showImg" property="showimg" jdbcType="VARCHAR" />
+    <result column="stylrImg" property="stylrimg" jdbcType="VARCHAR" />
+    <result column="first_id" property="firstId" jdbcType="VARCHAR" />
+    <result column="reserve" property="reserve" jdbcType="VARCHAR" />
+    <result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, showImg, stylrImg, first_id, reserve, reserve1
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jade.mod.CategoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from category
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from category
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jade.mod.CategoryExample" >
+    delete from category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jade.mod.Category" useGeneratedKeys="true" keyProperty="id" >
+    insert into category (id, name, showImg, 
+      stylrImg, first_id, reserve, 
+      reserve1)
+    values (#{id,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{showimg,jdbcType=VARCHAR}, 
+      #{stylrimg,jdbcType=VARCHAR}, #{firstId,jdbcType=VARCHAR}, #{reserve,jdbcType=VARCHAR}, 
+      #{reserve1,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jade.mod.Category" useGeneratedKeys="true" keyProperty="id" >
+    insert into category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="showimg != null" >
+        showImg,
+      </if>
+      <if test="stylrimg != null" >
+        stylrImg,
+      </if>
+      <if test="firstId != null" >
+        first_id,
+      </if>
+      <if test="reserve != null" >
+        reserve,
+      </if>
+      <if test="reserve1 != null" >
+        reserve1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="showimg != null" >
+        #{showimg,jdbcType=VARCHAR},
+      </if>
+      <if test="stylrimg != null" >
+        #{stylrimg,jdbcType=VARCHAR},
+      </if>
+      <if test="firstId != null" >
+        #{firstId,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        #{reserve,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        #{reserve1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jade.mod.CategoryExample" resultType="java.lang.Integer" >
+    select count(*) from category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update category
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=CHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.showimg != null" >
+        showImg = #{record.showimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stylrimg != null" >
+        stylrImg = #{record.stylrimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstId != null" >
+        first_id = #{record.firstId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve != null" >
+        reserve = #{record.reserve,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve1 != null" >
+        reserve1 = #{record.reserve1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update category
+    set id = #{record.id,jdbcType=CHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      showImg = #{record.showimg,jdbcType=VARCHAR},
+      stylrImg = #{record.stylrimg,jdbcType=VARCHAR},
+      first_id = #{record.firstId,jdbcType=VARCHAR},
+      reserve = #{record.reserve,jdbcType=VARCHAR},
+      reserve1 = #{record.reserve1,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jade.mod.Category" >
+    update category
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="showimg != null" >
+        showImg = #{showimg,jdbcType=VARCHAR},
+      </if>
+      <if test="stylrimg != null" >
+        stylrImg = #{stylrimg,jdbcType=VARCHAR},
+      </if>
+      <if test="firstId != null" >
+        first_id = #{firstId,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        reserve = #{reserve,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        reserve1 = #{reserve1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jade.mod.Category" >
+    update category
+    set name = #{name,jdbcType=VARCHAR},
+      showImg = #{showimg,jdbcType=VARCHAR},
+      stylrImg = #{stylrimg,jdbcType=VARCHAR},
+      first_id = #{firstId,jdbcType=VARCHAR},
+      reserve = #{reserve,jdbcType=VARCHAR},
+      reserve1 = #{reserve1,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

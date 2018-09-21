@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jade.dao.UorderMapper" >
+  <resultMap id="BaseResultMap" type="com.jade.mod.Uorder" >
+    <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="cid" property="cid" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="sid" property="sid" jdbcType="VARCHAR" />
+    <result column="rid" property="rid" jdbcType="VARCHAR" />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="receving_time" property="recevingTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="reserve" property="reserve" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultComMap" type="com.jade.mod.Commodity" >
+    <id column="cid" property="cid" jdbcType="CHAR" />
+    <result column="sid" property="sid" jdbcType="CHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+    <result column="inventory" property="inventory" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="shelvesTime" property="shelvestime" jdbcType="TIMESTAMP" />
+    <result column="effectiveTime" property="effectivetime" jdbcType="TIMESTAMP" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="isNoPackagemaill" property="isnopackagemaill" jdbcType="CHAR" />
+    <result column="standarddcscribe" property="standarddcscribe" jdbcType="VARCHAR" />
+    <result column="figuredescribe" property="figuredescribe" jdbcType="VARCHAR" />
+    <result column="commodityImg" property="commodityimg" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="isdel" property="isdel" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    order_id, cid, type, sid, rid, order_time, receving_time, end_time, account, reserve
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jade.mod.UorderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from u_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <select id="getMyAllUOrder" resultType="map" parameterType="map" >
+   select u.type type, u.order_id oId,u.rid rId,u.cid cId,re.`name` rName,re.telephone rTelephone,co.`name` cName,u.order_time orderTime,
+   u.receving_time recevingTime,u.end_time endTime,u.reserve closeTime,co.color cColor,co.price cPrice,co.commodityImg img,co.isNoPackagemaill video
+   		
+   		from commodity co, receiving_note re, u_order u,
+   				(select su.sid ,su.`name` 
+   				from supplier su ,user us 
+   				where su.sid = us.sid and us.account = #{account} ) a 
+   				
+   		where u.sid = a.sid and re.id = u.rid and co.cid = u.cid  and u.type != '4'
+   		<if test="type != null" >
+   		and u.type = #{type}
+   		</if>
+   		
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <select id="getComAndRecInType1" resultType="map" parameterType="java.lang.String" >
+  select d.express_company expressCompany,d.express_id expressId ,b.`name` cName,b.price cPrice,b.size cSize,b.color cColor,b.commodityImg img,c.`name` rName,c.address rAddress,c.city rCity,c.telephone rTelephone,b.isNoPackagemaill video 
+   	from u_order a 
+   	LEFT JOIN commodity b on  a.cid=b.cid 
+	LEFT JOIN receiving_note c on c.id = a.rid 
+	LEFT JOIN express d on a.order_id = d.order_id 
+	where a.order_id =#{orderId}
+  </select>
+  
+  <select id="countMyAllUOrder" resultType="java.lang.Integer" parameterType="map" >
+   select count(*)
+   		from commodity co, receiving_note re, u_order u,
+   				(select su.sid ,su.`name` 
+   				from supplier su ,user us 
+   				where su.sid = us.sid and us.account = #{account} ) a 
+   		where u.sid = a.sid and re.id = u.rid and co.cid = u.cid and u.type = #{type}
+    
+    
+  </select>
+  <update id="updateByTimeToClose" parameterType="java.lang.String">
+   update u_order b,(
+		select TIMESTAMPDIFF(SECOND,NOW(),timestampadd(MINUTE, 60, a.order_time) ) time from u_order a where a.type='1'
+		) c
+		SET b.type = '4' 
+		
+		<![CDATA[where c.time <0  and b.type='1']]>
+  </update>
+  <insert id="insertByTime" useGeneratedKeys="true" keyProperty="id">
+  	<![CDATA[set @a = UUID();]]>
+	insert into purchase_records(id,cid,`name`,sid,price,create_time,account)
+	select @a,b.cid,b.`name`,b.sid ,b.price,NOW(),c.account from commodity b,(select a.account,a.cid,TIMESTAMPDIFF(SECOND,NOW(),timestampadd(day, 7, a.receving_time) ) time from u_order a where a.type='2') c 
+	<![CDATA[where c.time<0 and c.cid = b.cid]]>
+  </insert>
+  
+  <update id="updateByTime" parameterType="java.lang.String">
+    update u_order b,commodity d,(
+		select TIMESTAMPDIFF(SECOND,NOW(),timestampadd(day, 7, a.receving_time) ) time from u_order a where a.type='2'
+		) c
+		SET b.type = '3',b.end_time = NOW(),d.isdel = d.isdel+1
+		
+		<![CDATA[where c.time <0 and b.type='2' AND b.cid = d.cid]]>
+  </update>
+   <select id="selectByOrderIdtoOne" resultType="map" parameterType="java.lang.String">
+	select a.order_id oId,a.order_time oTime,a.receving_time rTime,a.end_time eTime,c.`name` cName,
+	c.commodityImg img,c.price cPrice,c.color cColor,d.`name` sName,a.type oType,b.address rAddress,
+	b.`name` rName,b.city rCity,b.telephone rTelephone ,c.isNoPackagemaill video
+	
+		from u_order a,receiving_note b,commodity c,supplier d 
+		where a.cid = c.cid and a.rid=b.id and a.sid = d.sid  and a.order_id=#{orderId,jdbcType=VARCHAR} 
+		
+  </select>
+  <select id="selectByOrderId" resultType="map" parameterType="java.lang.String">
+	select a.order_id oId,a.order_time oTime,a.receving_time rTime,a.end_time eTime,c.`name` cName,
+	c.commodityImg img,c.price cPrice,c.color cColor,d.`name` sName,a.type oType,b.address rAddress,
+	b.`name` rName,b.city rCity,b.telephone rTelephone ,c.isNoPackagemaill video,e.express_company expressCompany,e.express_id expressId
+	
+		from u_order a,receiving_note b,commodity c,supplier d ,express e
+		where a.cid = c.cid and a.rid=b.id and a.sid = d.sid  and a.order_id=#{orderId,jdbcType=VARCHAR} and a.order_id = e.order_id
+		
+  </select>
+  <select id="selectByType3" resultType="java.lang.Integer" parameterType="java.lang.String">
+	select TIMESTAMPDIFF(SECOND,NOW(),timestampadd(day, 7, a.receving_time) ) time from u_order a where a.type='3' and a.order_Id=#{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByType2" resultType="java.lang.Integer" parameterType="java.lang.String">
+	select TIMESTAMPDIFF(SECOND,NOW(),timestampadd(day, 7, a.order_time) ) time from u_order a where a.type='2' and a.order_Id=#{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByType1" resultType="java.lang.Integer" parameterType="java.lang.String">
+	select TIMESTAMPDIFF(SECOND,NOW(),timestampadd(MINUTE, 30, a.order_time) ) time from u_order a where a.type='1' and a.order_Id=#{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByTime" resultType="map" parameterType="java.lang.String">
+	 SELECT d.`name` cName,d.commodityImg cImg,d.cid cId,e.account account,e.`name` uName,e.headimg uImg,c.order_id oId
+	from(select a.order_id ,TIMESTAMPDIFF(SECOND,NOW(),timestampadd(day, 3, a.end_time) ) time from u_order a where a.type='3'
+	<![CDATA[)b,u_order c,commodity d,`user` e where b.time <0 AND b.order_id = c.order_id AND d.cid=c.cid AND c.account = e.account]]>
+
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from u_order
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from u_order
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jade.mod.UorderExample" >
+    delete from u_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jade.mod.Uorder" useGeneratedKeys="true" keyProperty="id" >
+    insert into u_order (order_id, cid, type, 
+      sid, rid, order_time, 
+      receving_time, end_time, account, 
+      reserve)
+    values (#{orderId,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{sid,jdbcType=VARCHAR}, #{rid,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, 
+      #{recevingTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{account,jdbcType=VARCHAR}, 
+      #{reserve,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jade.mod.Uorder" useGeneratedKeys="true" keyProperty="id" >
+    insert into u_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="sid != null" >
+        sid,
+      </if>
+      <if test="rid != null" >
+        rid,
+      </if>
+      <if test="orderTime != null" >
+        order_time,
+      </if>
+      <if test="recevingTime != null" >
+        receving_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="reserve != null" >
+        reserve,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null" >
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null" >
+        #{rid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recevingTime != null" >
+        #{recevingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        #{reserve,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jade.mod.UorderExample" resultType="java.lang.Integer" >
+    select count(*) from u_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update u_order
+    <set >
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cid != null" >
+        cid = #{record.cid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sid != null" >
+        sid = #{record.sid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rid != null" >
+        rid = #{record.rid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderTime != null" >
+        order_time = #{record.orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.recevingTime != null" >
+        receving_time = #{record.recevingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.account != null" >
+        account = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve != null" >
+        reserve = #{record.reserve,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update u_order
+    set order_id = #{record.orderId,jdbcType=VARCHAR},
+      cid = #{record.cid,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      sid = #{record.sid,jdbcType=VARCHAR},
+      rid = #{record.rid,jdbcType=VARCHAR},
+      order_time = #{record.orderTime,jdbcType=TIMESTAMP},
+      receving_time = #{record.recevingTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      account = #{record.account,jdbcType=VARCHAR},
+      reserve = #{record.reserve,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jade.mod.Uorder" >
+    update u_order
+    <set >
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null" >
+        sid = #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null" >
+        rid = #{rid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recevingTime != null" >
+        receving_time = #{recevingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        reserve = #{reserve,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jade.mod.Uorder" >
+    update u_order
+    set cid = #{cid,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      sid = #{sid,jdbcType=VARCHAR},
+      rid = #{rid,jdbcType=VARCHAR},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      receving_time = #{recevingTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      account = #{account,jdbcType=VARCHAR},
+      reserve = #{reserve,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

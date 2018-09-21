@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jade.dao.EvaluateMapper" >
+  <resultMap id="BaseResultMap" type="com.jade.mod.Evaluate" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="cid" property="cid" jdbcType="VARCHAR" />
+    <result column="u_name" property="uName" jdbcType="VARCHAR" />
+    <result column="u_img" property="uImg" jdbcType="VARCHAR" />
+    <result column="u_evaluate" property="uEvaluate" jdbcType="VARCHAR" />
+    <result column="evaluate_time" property="evaluateTime" jdbcType="TIMESTAMP" />
+    <result column="c_name" property="cName" jdbcType="VARCHAR" />
+    <result column="c_number" property="cNumber" jdbcType="VARCHAR" />
+    <result column="c_img" property="cImg" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="reserve" property="reserve" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, cid, u_name, u_img, u_evaluate, evaluate_time, c_name, c_number, c_img, account, 
+    reserve
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jade.mod.EvaluateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evaluate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+   <select id="selectByPage" resultType="map" parameterType="com.jade.mod.EvaluateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evaluate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <select id="countByPage" resultType="java.lang.Integer" parameterType="com.jade.mod.EvaluateExample" >
+    select
+   	count(*)
+    
+    from evaluate a
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from evaluate
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from evaluate
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jade.mod.EvaluateExample" >
+    delete from evaluate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jade.mod.Evaluate" useGeneratedKeys="true" keyProperty="id" >
+    insert into evaluate (id, cid, u_name, 
+      u_img, u_evaluate, evaluate_time, 
+      c_name, c_number, c_img, 
+      account, reserve)
+    values (#{id,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{uName,jdbcType=VARCHAR}, 
+      #{uImg,jdbcType=VARCHAR}, #{uEvaluate,jdbcType=VARCHAR}, #{evaluateTime,jdbcType=TIMESTAMP}, 
+      #{cName,jdbcType=VARCHAR}, #{cNumber,jdbcType=VARCHAR}, #{cImg,jdbcType=VARCHAR}, 
+      #{account,jdbcType=VARCHAR}, #{reserve,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jade.mod.Evaluate" useGeneratedKeys="true" keyProperty="id" >
+    insert into evaluate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="uName != null" >
+        u_name,
+      </if>
+      <if test="uImg != null" >
+        u_img,
+      </if>
+      <if test="uEvaluate != null" >
+        u_evaluate,
+      </if>
+      <if test="evaluateTime != null" >
+        evaluate_time,
+      </if>
+      <if test="cName != null" >
+        c_name,
+      </if>
+      <if test="cNumber != null" >
+        c_number,
+      </if>
+      <if test="cImg != null" >
+        c_img,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="reserve != null" >
+        reserve,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="uName != null" >
+        #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uImg != null" >
+        #{uImg,jdbcType=VARCHAR},
+      </if>
+      <if test="uEvaluate != null" >
+        #{uEvaluate,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluateTime != null" >
+        #{evaluateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cName != null" >
+        #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cNumber != null" >
+        #{cNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cImg != null" >
+        #{cImg,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        #{reserve,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jade.mod.EvaluateExample" resultType="java.lang.Integer" >
+    select count(*) from evaluate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update evaluate
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cid != null" >
+        cid = #{record.cid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uName != null" >
+        u_name = #{record.uName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uImg != null" >
+        u_img = #{record.uImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uEvaluate != null" >
+        u_evaluate = #{record.uEvaluate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.evaluateTime != null" >
+        evaluate_time = #{record.evaluateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cName != null" >
+        c_name = #{record.cName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cNumber != null" >
+        c_number = #{record.cNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cImg != null" >
+        c_img = #{record.cImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.account != null" >
+        account = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve != null" >
+        reserve = #{record.reserve,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update evaluate
+    set id = #{record.id,jdbcType=VARCHAR},
+      cid = #{record.cid,jdbcType=VARCHAR},
+      u_name = #{record.uName,jdbcType=VARCHAR},
+      u_img = #{record.uImg,jdbcType=VARCHAR},
+      u_evaluate = #{record.uEvaluate,jdbcType=VARCHAR},
+      evaluate_time = #{record.evaluateTime,jdbcType=TIMESTAMP},
+      c_name = #{record.cName,jdbcType=VARCHAR},
+      c_number = #{record.cNumber,jdbcType=VARCHAR},
+      c_img = #{record.cImg,jdbcType=VARCHAR},
+      account = #{record.account,jdbcType=VARCHAR},
+      reserve = #{record.reserve,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jade.mod.Evaluate" >
+    update evaluate
+    <set >
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="uName != null" >
+        u_name = #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uImg != null" >
+        u_img = #{uImg,jdbcType=VARCHAR},
+      </if>
+      <if test="uEvaluate != null" >
+        u_evaluate = #{uEvaluate,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluateTime != null" >
+        evaluate_time = #{evaluateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cName != null" >
+        c_name = #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cNumber != null" >
+        c_number = #{cNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cImg != null" >
+        c_img = #{cImg,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        reserve = #{reserve,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jade.mod.Evaluate" >
+    update evaluate
+    set cid = #{cid,jdbcType=VARCHAR},
+      u_name = #{uName,jdbcType=VARCHAR},
+      u_img = #{uImg,jdbcType=VARCHAR},
+      u_evaluate = #{uEvaluate,jdbcType=VARCHAR},
+      evaluate_time = #{evaluateTime,jdbcType=TIMESTAMP},
+      c_name = #{cName,jdbcType=VARCHAR},
+      c_number = #{cNumber,jdbcType=VARCHAR},
+      c_img = #{cImg,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      reserve = #{reserve,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jade.dao.CommodityMapper" >
+  <resultMap id="BaseResultMap" type="com.jade.mod.Commodity" >
+    <id column="cid" property="cid" jdbcType="VARCHAR" />
+    <result column="sid" property="sid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+    <result column="second_category" property="secondCategory" jdbcType="VARCHAR" />
+    <result column="inventory" property="inventory" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="shelvesTime" property="shelvestime" jdbcType="TIMESTAMP" />
+    <result column="effectiveTime" property="effectivetime" jdbcType="TIMESTAMP" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="isNoPackagemaill" property="isnopackagemaill" jdbcType="CHAR" />
+    <result column="standarddcscribe" property="standarddcscribe" jdbcType="VARCHAR" />
+    <result column="figuredescribe" property="figuredescribe" jdbcType="VARCHAR" />
+    <result column="commodityImg" property="commodityimg" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="isdel" property="isdel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cid, sid, name, category_id, second_category, inventory, price, createTime, shelvesTime, 
+    effectiveTime, size, color, isNoPackagemaill, standarddcscribe, figuredescribe, commodityImg, 
+    status, isdel
+  </sql>
+  
+  <select id="selectByPageLike" resultType="map" parameterType="com.jade.mod.CommodityExample" >
+    select
+   	a.category_id categoryId,a.cid cid,a.commodityImg img ,a.`name` Name,a.price price,a.second_category second_category ,a.sid sid,a.isNoPackagemaill video
+    
+    from commodity a
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPagePrice" resultType="map" parameterType="com.jade.mod.CommodityExample" >
+    select
+   	a.category_id categoryId,a.cid cid,a.commodityImg img ,a.`name` Name,a.price price,a.second_category second_category ,a.sid sid,a.isNoPackagemaill video
+    
+    from commodity a
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+   <select id="getCommodityList" resultType="map" parameterType="java.lang.String" >
+   select a.*,b.`name` firstCategory,a.category_id firstId,a.second_category secondId,c.`name` secondCategory ,TIMESTAMPDIFF(DAY,NOW(),a.effectiveTime ) validTime,a.standarddcscribe standarddcscribe from commodity a left join category b on a.category_id=b.first_id left join second_level c on a.second_category = c.second_id where a.status ='1' and a.sid=#{sid}
+  </select>
+  <select id="getCommoditysoldOut" resultType="map"  >
+   select a.*,a.category_id firstId,a.second_category secondId,b.`name` firstCategory,c.`name` secondCategory ,TIMESTAMPDIFF(DAY,a.shelvesTime,a.effectiveTime ) validTime,a.standarddcscribe standarddcscribe from commodity a left join category b on a.category_id=b.first_id left join second_level c on a.second_category = c.second_id where a.status ='0' and a.sid=#{sid}
+  </select>
+  <select id="selectByPageHot" resultType="map" parameterType="com.jade.mod.CommodityExample" >
+    select
+   	a.category_id categoryId,a.cid cid,a.commodityImg img ,a.`name` name,a.price price,a.isdel hot,a.second_category second_category,a.color color,a.sid sid,a.isNoPackagemaill video
+    
+    from commodity a
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPageNew" resultType="map" parameterType="com.jade.mod.CommodityExample" >
+    select
+   	a.category_id categoryId,a.cid cid,a.commodityImg img ,a.`name` name,a.price price,a.createTime createTime,a.second_category second_category,a.color color,a.sid sid,a.isNoPackagemaill video
+    
+    from commodity a
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPage" resultType="map" parameterType="com.jade.mod.CommodityExample" >
+    select
+   	a.category_id categoryId,a.cid cid,a.commodityImg img ,a.`name` name,a.price price,a.createTime cTime,a.second_category second_category,a.color color,a.sid sid,a.isNoPackagemaill video
+    
+    from commodity a
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+   <select id="selectByPriceE" resultType="map" parameterType="com.jade.mod.CommodityExample" >
+    select
+   	a.category_id categoryId,a.cid cid,a.commodityImg img ,a.`name` name,a.price price,a.second_category second_category,a.color color,a.sid sid,a.isNoPackagemaill video
+    
+    from commodity a
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+     <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <select id="countByPage" resultType="java.lang.Integer" parameterType="com.jade.mod.CommodityExample" >
+    select
+   	count(*)
+    
+    from commodity a
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  
+  </select>
+   <update id="updateByTimeToClose" parameterType="java.lang.String">
+   update commodity b,(
+		select a.cid, TIMESTAMPDIFF(SECOND,NOW(),a.effectiveTime ) time from commodity a where a.`status`='1'
+		) c
+		SET b.`status` = '0' 
+		
+		<![CDATA[where c.time <0 and c.cid = b.cid]]>
+  </update>
+  
+  <select id="selectComAndSup" resultType="map" parameterType="java.lang.String" >
+    select b.color cColor,c.sid sid,b.cid cid,
+		b.`name` cName,b.price cPrice,b.commodityImg img,c.`name` sName,b.isNoPackagemaill video
+		from commodity b,supplier c 
+		where b.cid=#{cid,jdbcType=CHAR} and c.sid=b.sid and b.status != "0"
+  </select>
+   <select id="selectCommodityByCId" resultType="map" parameterType="java.lang.String" >
+    select 
+    cid,sid,name,category_id,inventory,price,size,color,standarddcscribe,commodityImg as img,second_category,isNoPackagemaill as video,figuredescribe as imgText
+    from commodity
+    where cid = #{cId,jdbcType=VARCHAR} and status != "0"
+  </select>
+   <select id="selectCommodityByExample" resultType="map" parameterType="java.lang.String">
+   select b.isNoPackagemaill as video, b.cid,b.`name`,b.category_id,b.price,b.commodityImg img,b.second_category ,e.name as cName,b.color as color,su.`name` as supplier,su.sid as sid
+   from category e,(select aa.sid from user aa where aa.account = #{account}) cc, commodity b,supplier su,(select a.category_id,SUM(a.isdel) from commodity a GROUP BY a.category_id ORDER BY SUM(a.isdel) desc limit 3) c 
+   where b.category_id = c.category_id and b.status != "0" and e.first_id = b.category_id and b.sid = su.sid and cc.sid = b.sid
+  </select>
+  <select id="countByDeal"  resultType="java.lang.Integer" >
+    select IFNULL(SUM(isdel),0) as deal from commodity
+    
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jade.mod.CommodityExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from commodity
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from commodity
+    where cid = #{cid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from commodity
+    where cid = #{cid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jade.mod.CommodityExample" >
+    delete from commodity
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jade.mod.Commodity" useGeneratedKeys="true" keyProperty="id" >
+    insert into commodity (cid, sid, name, 
+      category_id, second_category, inventory, 
+      price, createTime, shelvesTime, 
+      effectiveTime, size, color, 
+      isNoPackagemaill, standarddcscribe, figuredescribe, 
+      commodityImg, status, isdel
+      )
+    values (#{cid,jdbcType=VARCHAR}, #{sid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{categoryId,jdbcType=VARCHAR}, #{secondCategory,jdbcType=VARCHAR}, #{inventory,jdbcType=INTEGER}, 
+      #{price,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{shelvestime,jdbcType=TIMESTAMP}, 
+      #{effectivetime,jdbcType=TIMESTAMP}, #{size,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, 
+      #{isnopackagemaill,jdbcType=CHAR}, #{standarddcscribe,jdbcType=VARCHAR}, #{figuredescribe,jdbcType=VARCHAR}, 
+      #{commodityimg,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{isdel,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jade.mod.Commodity" useGeneratedKeys="true" keyProperty="id" >
+    insert into commodity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="sid != null" >
+        sid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="secondCategory != null" >
+        second_category,
+      </if>
+      <if test="inventory != null" >
+        inventory,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="shelvestime != null" >
+        shelvesTime,
+      </if>
+      <if test="effectivetime != null" >
+        effectiveTime,
+      </if>
+      <if test="size != null" >
+        size,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="isnopackagemaill != null" >
+        isNoPackagemaill,
+      </if>
+      <if test="standarddcscribe != null" >
+        standarddcscribe,
+      </if>
+      <if test="figuredescribe != null" >
+        figuredescribe,
+      </if>
+      <if test="commodityimg != null" >
+        commodityImg,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null" >
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCategory != null" >
+        #{secondCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null" >
+        #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shelvestime != null" >
+        #{shelvestime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effectivetime != null" >
+        #{effectivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="isnopackagemaill != null" >
+        #{isnopackagemaill,jdbcType=CHAR},
+      </if>
+      <if test="standarddcscribe != null" >
+        #{standarddcscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="figuredescribe != null" >
+        #{figuredescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityimg != null" >
+        #{commodityimg,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jade.mod.CommodityExample" resultType="java.lang.Integer" >
+    select count(*) from commodity
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update commodity
+    <set >
+      <if test="record.cid != null" >
+        cid = #{record.cid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sid != null" >
+        sid = #{record.sid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categoryId != null" >
+        category_id = #{record.categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.secondCategory != null" >
+        second_category = #{record.secondCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventory != null" >
+        inventory = #{record.inventory,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shelvestime != null" >
+        shelvesTime = #{record.shelvestime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.effectivetime != null" >
+        effectiveTime = #{record.effectivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.size != null" >
+        size = #{record.size,jdbcType=VARCHAR},
+      </if>
+      <if test="record.color != null" >
+        color = #{record.color,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isnopackagemaill != null" >
+        isNoPackagemaill = #{record.isnopackagemaill,jdbcType=CHAR},
+      </if>
+      <if test="record.standarddcscribe != null" >
+        standarddcscribe = #{record.standarddcscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.figuredescribe != null" >
+        figuredescribe = #{record.figuredescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commodityimg != null" >
+        commodityImg = #{record.commodityimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update commodity
+    set cid = #{record.cid,jdbcType=VARCHAR},
+      sid = #{record.sid,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      category_id = #{record.categoryId,jdbcType=VARCHAR},
+      second_category = #{record.secondCategory,jdbcType=VARCHAR},
+      inventory = #{record.inventory,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      shelvesTime = #{record.shelvestime,jdbcType=TIMESTAMP},
+      effectiveTime = #{record.effectivetime,jdbcType=TIMESTAMP},
+      size = #{record.size,jdbcType=VARCHAR},
+      color = #{record.color,jdbcType=VARCHAR},
+      isNoPackagemaill = #{record.isnopackagemaill,jdbcType=CHAR},
+      standarddcscribe = #{record.standarddcscribe,jdbcType=VARCHAR},
+      figuredescribe = #{record.figuredescribe,jdbcType=VARCHAR},
+      commodityImg = #{record.commodityimg,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=CHAR},
+      isdel = #{record.isdel,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jade.mod.Commodity" >
+    update commodity
+    <set >
+      <if test="sid != null" >
+        sid = #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCategory != null" >
+        second_category = #{secondCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null" >
+        inventory = #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shelvestime != null" >
+        shelvesTime = #{shelvestime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effectivetime != null" >
+        effectiveTime = #{effectivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="isnopackagemaill != null" >
+        isNoPackagemaill = #{isnopackagemaill,jdbcType=CHAR},
+      </if>
+      <if test="standarddcscribe != null" >
+        standarddcscribe = #{standarddcscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="figuredescribe != null" >
+        figuredescribe = #{figuredescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityimg != null" >
+        commodityImg = #{commodityimg,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cid = #{cid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jade.mod.Commodity" >
+    update commodity
+    set sid = #{sid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=VARCHAR},
+      second_category = #{secondCategory,jdbcType=VARCHAR},
+      inventory = #{inventory,jdbcType=INTEGER},
+      price = #{price,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      shelvesTime = #{shelvestime,jdbcType=TIMESTAMP},
+      effectiveTime = #{effectivetime,jdbcType=TIMESTAMP},
+      size = #{size,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      isNoPackagemaill = #{isnopackagemaill,jdbcType=CHAR},
+      standarddcscribe = #{standarddcscribe,jdbcType=VARCHAR},
+      figuredescribe = #{figuredescribe,jdbcType=VARCHAR},
+      commodityImg = #{commodityimg,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      isdel = #{isdel,jdbcType=VARCHAR}
+    where cid = #{cid,jdbcType=VARCHAR}
+  </update>
+</mapper>

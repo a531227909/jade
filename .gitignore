@@ -1,0 +1,33 @@
+target/
+
+### STS ###
+.apt_generated
+.classpath
+.DS_Store
+
+# Maven #
+target/
+
+# IDEA #
+.idea/
+*.iml
+
+# Eclipse #
+.settings/
+.classpath
+.project
+
+# logs file #
+logs/
+*.log
+
+*.out
+
+.svn/
+
+classes/
+test-classes/
+out/
+
+local/
+dev-data/

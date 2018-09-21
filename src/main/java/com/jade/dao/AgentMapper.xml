@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jade.dao.AgentMapper" >
+  <resultMap id="BaseResultMap" type="com.jade.mod.Agent" >
+    <id column="sid" property="sid" jdbcType="VARCHAR" />
+    <result column="sname" property="sname" jdbcType="VARCHAR" />
+    <result column="principal" property="principal" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="ID_number" property="idNumber" jdbcType="VARCHAR" />
+    <result column="user_number" property="userNumber" jdbcType="INTEGER" />
+    <result column="have_number" property="haveNumber" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="aCancel" property="acancel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sid, sname, principal, telephone, ID_number, user_number, have_number, create_time, 
+    aCancel
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jade.mod.AgentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from agent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+   <select id="countByPage" resultType="java.lang.Integer" parameterType="map" >
+    select
+   	count(*)
+   	from commodity a,category b 
+   	where a.category_id = b.first_id and a.sid= #{sid,jdbcType=VARCHAR}
+   
+  
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from agent
+    where sid = #{sid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAgentByPage" resultType="map" parameterType="com.jade.mod.AgentExample" >
+    select
+   	a.sid ,a.sname ,a.principal ,a.telephone,a.ID_number,a.aCancel,a.user_number as userNumber, a.have_number as haveNumber
+    
+    from agent a
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <select id="selectAgentLikeByPage" resultType="map" parameterType="map" >
+    select
+   	a.sid ,a.sname ,a.principal ,a.telephone,a.ID_number
+    
+    from agent a
+    where sname like  CONCAT('%', #{likeString}, '%')  or principal like CONCAT('%', #{likeString}, '%') 
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  
+  <select id="countAgentByPageLike" resultType="java.lang.Integer" parameterType="map" >
+    select
+   	count(*)
+    
+    from agent a
+    where sname like  CONCAT('%', #{likeString}, '%')  or principal like CONCAT('%', #{likeString}, '%') 
+  
+  </select>
+  
+  <select id="countAgentByPage" resultType="java.lang.Integer" parameterType="com.jade.mod.AgentExample" >
+    select
+   	count(*)
+    
+    from agent a
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  
+  </select>
+  
+  
+  <select id="selectPerformanceByPage" resultType="map"  parameterType="map" >
+   	select distinct a.sid sid,b.`name` fname,a.cid cid,a.color ccolor,a.`name` cname,a.price cprice,a.isdel cnumber,a.price*a.isdel total, c.end_time endTime
+   	from commodity a,category b ,u_order c
+   	where a.category_id = b.first_id and a.sid= #{sid} and c.type in ('3','0') and a.cid = c.cid 
+
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+   <select id="countUserByPage" resultType="java.lang.Integer" parameterType="map" >
+    select
+   	count(*)
+   	from user
+   	where  a.sid= #{sid,jdbcType=VARCHAR}
+   
+  
+  </select>
+  <select id="selectUserByPage" resultType="map"  parameterType="map" >
+   	select a.id,a.account,b.password,a.createTime,a.telephone
+   	from user a ,user_bug b
+   	where sid= #{sid,jdbcType=VARCHAR}
+	and accountType = '2' and a.account =b.account
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from agent
+    where sid = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jade.mod.AgentExample" >
+    delete from agent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jade.mod.Agent" useGeneratedKeys="true" keyProperty="id" >
+    insert into agent (sid, sname, principal, 
+      telephone, ID_number, user_number, 
+      have_number, create_time, aCancel
+      )
+    values (#{sid,jdbcType=VARCHAR}, #{sname,jdbcType=VARCHAR}, #{principal,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{userNumber,jdbcType=INTEGER}, 
+      #{haveNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{acancel,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jade.mod.Agent" useGeneratedKeys="true" keyProperty="id" >
+    insert into agent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        sid,
+      </if>
+      <if test="sname != null" >
+        sname,
+      </if>
+      <if test="principal != null" >
+        principal,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="idNumber != null" >
+        ID_number,
+      </if>
+      <if test="userNumber != null" >
+        user_number,
+      </if>
+      <if test="haveNumber != null" >
+        have_number,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="acancel != null" >
+        aCancel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sid != null" >
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="sname != null" >
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="principal != null" >
+        #{principal,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userNumber != null" >
+        #{userNumber,jdbcType=INTEGER},
+      </if>
+      <if test="haveNumber != null" >
+        #{haveNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acancel != null" >
+        #{acancel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jade.mod.AgentExample" resultType="java.lang.Integer" >
+    select count(*) from agent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update agent
+    <set >
+      <if test="record.sid != null" >
+        sid = #{record.sid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sname != null" >
+        sname = #{record.sname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.principal != null" >
+        principal = #{record.principal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null" >
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idNumber != null" >
+        ID_number = #{record.idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userNumber != null" >
+        user_number = #{record.userNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.haveNumber != null" >
+        have_number = #{record.haveNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.acancel != null" >
+        aCancel = #{record.acancel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update agent
+    set sid = #{record.sid,jdbcType=VARCHAR},
+      sname = #{record.sname,jdbcType=VARCHAR},
+      principal = #{record.principal,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
+      ID_number = #{record.idNumber,jdbcType=VARCHAR},
+      user_number = #{record.userNumber,jdbcType=INTEGER},
+      have_number = #{record.haveNumber,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      aCancel = #{record.acancel,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jade.mod.Agent" >
+    update agent
+    <set >
+      <if test="sname != null" >
+        sname = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="principal != null" >
+        principal = #{principal,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        ID_number = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userNumber != null" >
+        user_number = #{userNumber,jdbcType=INTEGER},
+      </if>
+      <if test="haveNumber != null" >
+        have_number = #{haveNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acancel != null" >
+        aCancel = #{acancel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sid = #{sid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jade.mod.Agent" >
+    update agent
+    set sname = #{sname,jdbcType=VARCHAR},
+      principal = #{principal,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      ID_number = #{idNumber,jdbcType=VARCHAR},
+      user_number = #{userNumber,jdbcType=INTEGER},
+      have_number = #{haveNumber,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      aCancel = #{acancel,jdbcType=VARCHAR}
+    where sid = #{sid,jdbcType=VARCHAR}
+  </update>
+</mapper>
