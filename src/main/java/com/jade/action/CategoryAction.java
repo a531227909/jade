@@ -25,7 +25,7 @@ public class CategoryAction {
 	 */
 	@RequestMapping(value="/getAllCategory.action",method=RequestMethod.POST)
 	public @ResponseBody Result getAllCategory(HttpSession session){
-
+//		String str = "2018-09-21 18:59:59";
 		String agentId = (String)session.getAttribute("agentId");
 		return categoryService.selectCategory(agentId);
 		
