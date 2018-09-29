@@ -50,8 +50,8 @@ public class IdeaServiceImpl implements IdeaService{
 				
 				String nei = user.getName()+"##@@##@@"+content+"##@@##@@"+format.format(new Date());
 				//第三方接口goEasy
-//				GoEasy goEasy = new GoEasy("BC-a5e9eca11fe54c0994f9a1eb9635eaeb");//appkey
-				GoEasy goEasy = new GoEasy("BC-a5e9eca11fe54c0994f9a1eb9635eaeb", nei);//appkey
+				GoEasy goEasy = new GoEasy("BC-a5e9eca11fe54c0994f9a1eb9635eaeb");//appkey
+//				GoEasy goEasy = new GoEasy("BC-a5e9eca11fe54c0994f9a1eb9635eaeb", nei);//appkey
 				//goEasy.publish("channel",content);
 				goEasy.publish(user.getSid(),nei, new PublishListener(){
 					@Override
