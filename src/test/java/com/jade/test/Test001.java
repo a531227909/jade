@@ -101,5 +101,12 @@ public class Test001 {
 		userIds = userIds.substring(0,userIds.length()-1);
 		System.err.println(userIds);
 	}
+	
+	@Test
+	public void test004(){
+		String resultStr = "{'body':{},'heard':{'code':'1007','mag':'暂无可用付款码'}}";
+		JSONObject json = JSONObject.fromObject(resultStr);
+		System.out.println(JSONObject.fromObject(json.get("body")));
+	}
 
 }

@@ -22,6 +22,8 @@ public interface ShoppingCartMapper {
     List<ShoppingCart> selectByExample(ShoppingCartExample example);
 
     ShoppingCart selectByPrimaryKey(String id);
+    
+    ShoppingCart selectByCidAccount(@Param("cid")String cid, @Param("account") String account);
 
     int updateByExampleSelective(@Param("record") ShoppingCart record, @Param("example") ShoppingCartExample example);
 

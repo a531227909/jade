@@ -91,22 +91,29 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	}
 
 	@Override
-	public Result insertShoppingCart(String cid, 
+	public Result insertShoppingCart(String cid, String number,
 			String account) {
 		Result result = new Result();
 		try {
 			Commodity shopping = comMapper.selectByPrimaryKey(cid);
-			ShoppingCart shoppingCart = new ShoppingCart();
-			shoppingCart.setAccount(account);
-			shoppingCart.setCid(cid);
-			shoppingCart.setColor(shopping.getColor());
-			shoppingCart.setId(UuidUtil.get32UUID());
-			shoppingCart.setImg(shopping.getCommodityimg());
-			shoppingCart.setName(shopping.getName());
-			shoppingCart.setNumber("1");
-			shoppingCart.setPrice(shopping.getPrice().toString());
-			shoppingCart.setSid(shopping.getSid());
-			shoppingCartMapper.insert(shoppingCart);
+			ShoppingCart sc = shoppingCartMapper.selectByCidAccount(cid, account);
+			if(!(sc==null||sc.equals(""))){
+				number = String.valueOf(Integer.parseInt(number)+Integer.parseInt(sc.getNumber()));
+				sc.setNumber(number);
+				shoppingCartMapper.updateByPrimaryKeySelective(sc);
+			}else{
+				ShoppingCart shoppingCart = new ShoppingCart();
+				shoppingCart.setAccount(account);
+				shoppingCart.setCid(cid);
+				shoppingCart.setColor(shopping.getColor());
+				shoppingCart.setId(UuidUtil.get32UUID());
+				shoppingCart.setImg(shopping.getCommodityimg());
+				shoppingCart.setName(shopping.getName());
+				shoppingCart.setNumber(number);
+				shoppingCart.setPrice(shopping.getPrice().toString());
+				shoppingCart.setSid(shopping.getSid());
+				shoppingCartMapper.insert(shoppingCart);
+			}
 			result.setSuccess(true);
 			result.getResult().put("ShoppingCart", "购物车添加成功");
 		} catch (Exception e) {
@@ -121,10 +128,31 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	public Result delShoppingCart(String id) {
 		Result result = new Result();
 		try {
-			
 			shoppingCartMapper.deleteByPrimaryKey(id);
 			result.setSuccess(true);
 			result.getResult().put("ShoppingCart", "购物车删除成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.getResult().put("error", "error");
+		}
+		return result;
+	}
+
+	@Override
+	public Result updateShoppingCart(String cid, String number, String account) {
+		Result result = new Result();
+		try {
+			ShoppingCart sc = shoppingCartMapper.selectByCidAccount(cid, account);
+			if(!(sc==null||sc.equals(""))){
+				sc.setNumber(number);
+				shoppingCartMapper.updateByPrimaryKeySelective(sc);
+			}else{
+				result.setSuccess(false);
+				result.getResult().put("error", "购物车中不存在此物品");
+			}
+			result.setSuccess(true);
+			result.getResult().put("ShoppingCart", "购物车物品数量更新成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setSuccess(false);
