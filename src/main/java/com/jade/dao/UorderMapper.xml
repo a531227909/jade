@@ -118,7 +118,7 @@
   
   <select id="getMyAllUOrder" resultType="map" parameterType="map" >
    select u.type type, u.order_id oId,u.rid rId,u.cid cId,re.`name` rName,re.telephone rTelephone,co.`name` cName,u.order_time orderTime,
-   u.receving_time recevingTime,u.end_time endTime,u.reserve closeTime,co.color cColor,co.price cPrice,co.commodityImg img,co.isNoPackagemaill video
+   u.receving_time recevingTime,u.end_time endTime,u.reserve closeTime,u.number number,co.color cColor,co.price cPrice,co.commodityImg img,co.isNoPackagemaill video
    		
    		from commodity co, receiving_note re, u_order u,
    				(select su.sid ,su.`name` 

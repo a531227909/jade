@@ -23,6 +23,8 @@ public class Uorder implements Serializable {
     private String account;
 
     private String reserve;
+    
+    private String number;
 
     private static final long serialVersionUID = 1L;
 
@@ -105,8 +107,16 @@ public class Uorder implements Serializable {
     public void setReserve(String reserve) {
         this.reserve = reserve == null ? null : reserve.trim();
     }
+    
+    public String getNumber() {
+		return number;
+	}
 
-    @Override
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
@@ -122,6 +132,7 @@ public class Uorder implements Serializable {
         sb.append(", endTime=").append(endTime);
         sb.append(", account=").append(account);
         sb.append(", reserve=").append(reserve);
+        sb.append(", number=").append(number);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -148,7 +159,8 @@ public class Uorder implements Serializable {
             && (this.getRecevingTime() == null ? other.getRecevingTime() == null : this.getRecevingTime().equals(other.getRecevingTime()))
             && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
             && (this.getAccount() == null ? other.getAccount() == null : this.getAccount().equals(other.getAccount()))
-            && (this.getReserve() == null ? other.getReserve() == null : this.getReserve().equals(other.getReserve()));
+            && (this.getReserve() == null ? other.getReserve() == null : this.getReserve().equals(other.getReserve()))
+            && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()));
     }
 
     @Override
@@ -165,6 +177,7 @@ public class Uorder implements Serializable {
         result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
         result = prime * result + ((getAccount() == null) ? 0 : getAccount().hashCode());
         result = prime * result + ((getReserve() == null) ? 0 : getReserve().hashCode());
+        result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
         return result;
     }
 }

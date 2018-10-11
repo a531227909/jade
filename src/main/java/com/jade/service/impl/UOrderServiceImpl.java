@@ -313,6 +313,7 @@ public class UOrderServiceImpl implements UOrderService{
 						uorder.setRid(rid);
 						uorder.setSid(sid);
 						uorder.setType("1");
+//						uorder.setNumber(data.getString("number"));
 						Calendar calendar = Calendar.getInstance();
 				        calendar.add(Calendar.MINUTE, 30);
 				        String closeTime =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime());
