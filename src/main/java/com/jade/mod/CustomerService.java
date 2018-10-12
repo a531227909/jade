@@ -16,6 +16,10 @@ public class CustomerService implements Serializable {
 	private String create_time;
 	//0已读，1未读
 	private String is_read;
+	//电话
+	private String phone;
+	//姓名
+	private String name;
 	
 	public String getAccount() {
 		return account;
@@ -47,11 +51,23 @@ public class CustomerService implements Serializable {
 	public void setIs_read(String is_read) {
 		this.is_read = is_read;
 	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	@Override
 	public String toString() {
 		return "CustomerService [account=" + account + ", customer_service=" + customer_service + ", content=" + content
-				+ ", create_time=" + create_time + ", is_read=" + is_read + "]";
+				+ ", create_time=" + create_time + ", is_read=" + is_read + ", phone=" + phone + ", name=" + name + "]";
 	}
 	
 }

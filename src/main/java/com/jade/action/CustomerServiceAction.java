@@ -55,8 +55,21 @@ public class CustomerServiceAction {
 	 * @return
 	 */
 	@RequestMapping(value="/insertCustomerService.action",method=RequestMethod.POST)
-	public @ResponseBody Result insertCustomerService(String content, HttpSession session) {
+	public @ResponseBody Result insertCustomerService(String content, String phone, String name, HttpSession session) {
 		String account = (String) session.getAttribute("account");
-		return customerServiceService.insertCustomerService(account, content);
+		return customerServiceService.insertCustomerService(account, phone, name, content);
 	}
+	
+	/**
+	 * 添加客服回复信息
+	 * @param account
+	 * @param content
+	 * @return
+	 */
+	@RequestMapping(value="/replyCustomerService.action",method=RequestMethod.POST)
+	public @ResponseBody Result replyCustomerService(String account, String content, HttpSession session) {
+		String customerService = (String) session.getAttribute("account");
+		return customerServiceService.replyCustomerService(account, customerService, content);
+	}
+	
 }

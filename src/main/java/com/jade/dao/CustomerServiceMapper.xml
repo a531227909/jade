@@ -3,8 +3,15 @@
 <mapper namespace="com.jade.dao.CustomerServiceMapper" >
 
   <select id="selectByAccount" resultType="com.jade.mod.CustomerService" parameterType="java.lang.String">
-    select account,customer_service,content,create_time,is_read
-    from customer_service
+	select cs.account,cs.customer_service,cs.content,cs.create_time,cs.is_read,ci.phone,ci.name
+	from customer_service cs LEFT JOIN customer_information ci on cs.account=ci.account
+	<if test="account != null">
+		where cs.account = #{account,jdbcType=VARCHAR}
+	</if>
+  </select>
+  
+  <select id="selectCustomerInformation" resultType="com.jade.mod.CustomerInformation" parameterType="java.lang.String">
+	select account,phone,name from customer_information
 	<if test="account != null">
 		where account = #{account,jdbcType=VARCHAR}
 	</if>
@@ -15,8 +22,23 @@
     values (#{account,jdbcType=VARCHAR}, #{customer_service,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{is_read,jdbcType=VARCHAR})
   </insert>
   
+  <insert id="insertCustomerInformation" parameterType="com.jade.mod.CustomerInformation">
+    insert into customer_information (account,phone,name)
+    values (#{account,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateCustomerInformation" parameterType="java.lang.String">
+    update customer_information set phone = #{phone,jdbcType=VARCHAR},name = #{name,jdbcType=VARCHAR} where account = #{account,jdbcType=VARCHAR}
+  </update>
+  
   <update id="updateIsRead" parameterType="java.lang.String">
     update customer_service set is_read = #{is_read,jdbcType=VARCHAR} where account = #{account,jdbcType=VARCHAR}
+	and customer_service is NULL
+  </update>
+  
+  <update id="updateReplyIsRead" parameterType="java.lang.String">
+    update customer_service set is_read = #{is_read,jdbcType=VARCHAR} where account = #{account,jdbcType=VARCHAR}
+	and customer_service is NOT NULL
   </update>
 
 </mapper>
