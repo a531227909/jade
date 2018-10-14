@@ -16,7 +16,7 @@ public class Commodity implements Serializable {
 
     private Integer inventory;
 
-    private Integer price;
+    private String price;
 
     private Date createtime;
 
@@ -90,11 +90,11 @@ public class Commodity implements Serializable {
         this.inventory = inventory;
     }
 
-    public Integer getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

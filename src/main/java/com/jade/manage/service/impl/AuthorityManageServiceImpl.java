@@ -703,7 +703,7 @@ public class AuthorityManageServiceImpl implements AuthorityManageService{
 					if(commodity!=null){
 						com.add(commodity);
 					}
-					totalPrice = totalPrice+comMapper.selectByPrimaryKey(order.getCid()).getPrice();
+					totalPrice = totalPrice+Integer.parseInt(comMapper.selectByPrimaryKey(order.getCid()).getPrice());
 				}
 			}
 			

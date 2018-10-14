@@ -16,7 +16,7 @@ public class Collect implements Serializable {
 
     private String categoryId;
 
-    private Integer price;
+    private String price;
 
     private Date createtime;
 
@@ -72,11 +72,11 @@ public class Collect implements Serializable {
         this.categoryId = categoryId == null ? null : categoryId.trim();
     }
 
-    public Integer getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

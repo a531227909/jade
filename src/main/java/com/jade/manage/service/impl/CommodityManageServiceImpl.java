@@ -245,7 +245,7 @@ public class CommodityManageServiceImpl implements CommodityManageService{
 				commodity.setSize(data.getString("size"));
 			}
 			if(data.has("price")){
-				commodity.setPrice(data.getInt("price"));
+				commodity.setPrice(data.getString("price"));
 			}
 			if(data.has("color")){
 				commodity.setColor(data.getString("color"));
@@ -322,7 +322,7 @@ public class CommodityManageServiceImpl implements CommodityManageService{
 			String name =data.getString("name");//商品名
 			commodity.setName(name);
 			String price =data.getString("price");//价格
-			commodity.setPrice(Integer.parseInt(price));
+			commodity.setPrice(price);
 			String time =data.getString("time");//上架有效时间
 			if(Integer.parseInt(time)<=0){
 				result.setSuccess(false);
@@ -946,7 +946,7 @@ public class CommodityManageServiceImpl implements CommodityManageService{
 											record.setInventory(1);
 											record.setName(name.getRichStringCellValue().getString());
 											double dou = Double.parseDouble(price.getRichStringCellValue().getString());
-											record.setPrice((int)dou);
+											record.setPrice(String.valueOf(dou));
 											record.setStatus("0");
 											record.setCommodityimg("上传/20170817080742");
 											record.setSid(sid);
@@ -1077,7 +1077,7 @@ public class CommodityManageServiceImpl implements CommodityManageService{
 											record.setInventory(1);
 											record.setName(name.getRichStringCellValue().getString());
 											double dou = Double.parseDouble(price.getRichStringCellValue().getString());
-											record.setPrice((int)dou);
+											record.setPrice(String.valueOf(dou));
 											record.setStatus("0");
 											record.setCommodityimg("上传/20170817080742");
 											record.setSid(sid);

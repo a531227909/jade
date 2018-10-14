@@ -39,6 +39,7 @@ import com.jade.uitil.Const;
 import com.jade.uitil.IdUtil;
 import com.jade.uitil.ImageUtil;
 import com.jade.uitil.PageBean;
+import com.jade.uitil.PriceUtils;
 import com.jade.uitil.UuidUtil;
 @Service
 public class UOrderServiceImpl implements UOrderService{
@@ -385,8 +386,8 @@ public class UOrderServiceImpl implements UOrderService{
 					performance.setCnumber((long)1);
 					performance.setEndTime(new Date());
 					performance.setId(UUID.randomUUID().toString());
-					performance.setCprice((long)com.getPrice());
-					performance.setTotal((long)com.getPrice());
+					performance.setCprice(Long.parseLong(PriceUtils.getOnePrice(com.getPrice())));
+					performance.setTotal(Long.parseLong(PriceUtils.getOnePrice(com.getPrice())));
 					performance.setCname(com.getName());
 					performance.setCcolor(commo.getColor());
 					performance.setFname(category.getName());
