@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jade.dao.CouponMapper" >
+
+  <select id="selectCoupon" resultType="com.jade.mod.Coupon" parameterType="java.lang.String">
+  	SELECT cp_id,coupon_id,coupon_name,user_type,date_of_arrival,coupon_type,term_of_validity,is_use_time,count,count_version,memo,status FROM coupon WHERE cp_id <![CDATA[ <= ]]>
+	(SELECT cp_id FROM coupon ORDER BY cp_id desc LIMIT ${pageAmount},1) ORDER BY cp_id desc LIMIT ${pageSize}
+  </select>
+  
+  <select id="selectAllCouponCount" resultType="java.lang.Integer">
+	SELECT count(*) FROM coupon
+  </select>
+  
+</mapper>

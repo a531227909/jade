@@ -20,6 +20,7 @@ import com.jade.mod.ShoppingCartExample.Criteria;
 import com.jade.po.Result;
 import com.jade.service.ShoppingCartService;
 import com.jade.uitil.ImageUtil;
+import com.jade.uitil.PriceUtils;
 import com.jade.uitil.UuidUtil;
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService{
@@ -64,7 +65,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	
 					Supplier suppliers = supplierMapper.selectByPrimaryKey(lmap.get(i).get("sid").toString());
 					lmap.get(i).put("supplier", suppliers.getName());
-					total= total+Integer.parseInt(lmap.get(i).get("price").toString());
+					total= total+Integer.parseInt(PriceUtils.getOnePrice(lmap.get(i).get("price").toString()));
 //						map.put("supplier", suppliers.get(i).getName());
 //						map.put("sid", suppliers.get(i).getSid());
 //						map.put("content", lmap);
