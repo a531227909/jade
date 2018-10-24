@@ -1,4 +1,4 @@
-package com.jade.service;
+package com.jade.service.impl;
 
 import com.jade.po.Result;
 

@@ -1,4 +1,6 @@
-package com.jade.manage.action;
+package com.jade.action;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,9 +23,20 @@ public class CouponAction {
 	 * @param 
 	 * @return
 	 */
-	@RequestMapping(value="/getCoupon.action",method=RequestMethod.POST)
+	@RequestMapping(value="/getCouponList.action",method=RequestMethod.POST)
 	public @ResponseBody Result getCouponList(String page){
 		return couponService.selectCoupon(page);
+	}
+	
+	/**
+	 * 领取优惠券
+	 * @param 
+	 * @return
+	 */
+	@RequestMapping(value="/getOneCoupon.action",method=RequestMethod.POST)
+	public @ResponseBody Result getOneCoupon(String coupon_id, HttpSession session){
+		String account = (String) session.getAttribute("account");
+		return couponService.getOneCoupon(account, coupon_id);
 	}
 	
 }

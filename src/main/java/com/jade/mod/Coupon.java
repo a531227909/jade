@@ -22,13 +22,17 @@ public class Coupon implements Serializable {
 	 */
 	private String user_type;
 	/*
-	 * 起止日期
+	 * 起止日期 yyyyMMddHHmmss-yyyyMMddHHmmss
 	 */
 	private String date_of_arrival;
 	/*
-	 * 优惠券种类
+	 * 优惠券种类  暂时只有 1：通用优惠券（全场通用）
 	 */
 	private String coupon_type;
+	/*
+	 * 优惠券规则 根据coupon_type自定义规则，如1：满多少减多少 100-20
+	 */
+	private String coupon_rule;
 	/*
 	 * 有效期
 	 */
@@ -90,6 +94,12 @@ public class Coupon implements Serializable {
 	public void setCoupon_type(String coupon_type) {
 		this.coupon_type = coupon_type;
 	}
+	public String getCoupon_rule() {
+		return coupon_rule;
+	}
+	public void setCoupon_rule(String coupon_rule) {
+		this.coupon_rule = coupon_rule;
+	}
 	public String getTerm_of_validity() {
 		return term_of_validity;
 	}
@@ -130,9 +140,9 @@ public class Coupon implements Serializable {
 	@Override
 	public String toString() {
 		return "Coupon [cp_id=" + cp_id + ", coupon_id=" + coupon_id + ", coupon_name=" + coupon_name + ", user_type="
-				+ user_type + ", date_of_arrival=" + date_of_arrival + ", coupon_type=" + coupon_type
-				+ ", term_of_validity=" + term_of_validity + ", is_use_time=" + is_use_time + ", count=" + count
-				+ ", count_version=" + count_version + ", memo=" + memo + ", status=" + status + "]";
+				+ user_type + ", date_of_arrival=" + date_of_arrival + ", coupon_type=" + coupon_type + ", coupon_rule="
+				+ coupon_rule + ", term_of_validity=" + term_of_validity + ", is_use_time=" + is_use_time + ", count="
+				+ count + ", count_version=" + count_version + ", memo=" + memo + ", status=" + status + "]";
 	}
 	
 }
