@@ -76,5 +76,14 @@ public class CouponServiceImpl implements CouponService{
 			}
 		}
 	}
+
+	@Override
+	public Result selectUserCouponByAccount(String account) {
+		Result result = new Result();
+		List<UserCoupon> userCoupons = couponMapper.selectUserCouponByAccount(account);
+		result.setSuccess(true);
+		result.getResult().put("data", userCoupons);
+		return result;
+	}
 	
 }

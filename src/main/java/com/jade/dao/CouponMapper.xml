@@ -3,7 +3,7 @@
 <mapper namespace="com.jade.dao.CouponMapper" >
 
   <select id="selectCoupon" resultType="com.jade.mod.Coupon" parameterType="java.lang.String">
-  	SELECT cp_id,coupon_id,coupon_name,user_type,date_of_arrival,coupon_type,coupon_rule,term_of_validity,is_use_time,count,count_version,memo,status FROM coupon WHERE cp_id <![CDATA[ <= ]]>
+  	SELECT cp_id,coupon_id,coupon_name,user_type,date_of_start,date_of_arrival,coupon_type,coupon_rule,term_of_validity,is_use_time,count,count_version,memo,status,create_time FROM coupon WHERE status=0 and date_of_arrival<![CDATA[ >= ]]>now() and cp_id <![CDATA[ <= ]]>
 	(SELECT cp_id FROM coupon ORDER BY cp_id desc LIMIT ${pageAmount},1) ORDER BY cp_id desc LIMIT ${pageSize}
   </select>
   
@@ -12,8 +12,13 @@
   </select>
   
   <select id="selectCouponById" resultType="com.jade.mod.Coupon" parameterType="java.lang.String">
-  	SELECT cp_id,coupon_id,coupon_name,user_type,date_of_arrival,coupon_type,coupon_rule,term_of_validity,is_use_time,count,count_version,memo,status
+  	SELECT cp_id,coupon_id,coupon_name,user_type,date_of_start,date_of_arrival,coupon_type,coupon_rule,term_of_validity,is_use_time,count,count_version,memo,status,create_time
 	FROM coupon WHERE coupon_id = #{coupon_id}
+  </select>
+  
+  <select id="selectUserCouponByAccount" resultType="com.jade.mod.UserCoupon" parameterType="java.lang.String">
+  	SELECT ucp_id,user_coupon_id,coupon_id,account,coupon_name,coupon_type,coupon_rule,term_of_validity,create_time,cid,status
+	FROM user_coupon WHERE account = #{account}
   </select>
   
   <insert id="insertUserCouponCount" parameterType="java.lang.String">

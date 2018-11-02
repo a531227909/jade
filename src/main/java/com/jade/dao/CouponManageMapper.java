@@ -12,4 +12,10 @@ public interface CouponManageMapper {
     
     int selectAllCouponCount();
     
+    int insertCoupon(Coupon coupon);
+    
+    int updateCouponStatus(@Param("status")String status, @Param("coupon_id")String coupon_id);
+    
+    int deleteCoupon(@Param("coupon_id")String coupon_id);
+    
 }

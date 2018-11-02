@@ -22,7 +22,11 @@ public class Coupon implements Serializable {
 	 */
 	private String user_type;
 	/*
-	 * 起止日期 yyyyMMddHHmmss-yyyyMMddHHmmss
+	 * 开始日期 yyyyMMddHHmmss
+	 */
+	private String date_of_start;
+	/*
+	 * 终止日期 yyyyMMddHHmmss
 	 */
 	private String date_of_arrival;
 	/*
@@ -57,6 +61,10 @@ public class Coupon implements Serializable {
 	 * 状态 启用还是停用 0:启用 1:停用
 	 */
 	private String status;
+	/*
+	 * 创建时间
+	 */
+	private String create_time;
 	
 	public String getCp_id() {
 		return cp_id;
@@ -81,6 +89,12 @@ public class Coupon implements Serializable {
 	}
 	public void setUser_type(String user_type) {
 		this.user_type = user_type;
+	}
+	public String getDate_of_start() {
+		return date_of_start;
+	}
+	public void setDate_of_start(String date_of_start) {
+		this.date_of_start = date_of_start;
 	}
 	public String getDate_of_arrival() {
 		return date_of_arrival;
@@ -136,13 +150,20 @@ public class Coupon implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public String getCreate_time() {
+		return create_time;
+	}
+	public void setCreate_time(String create_time) {
+		this.create_time = create_time;
+	}
 	
 	@Override
 	public String toString() {
 		return "Coupon [cp_id=" + cp_id + ", coupon_id=" + coupon_id + ", coupon_name=" + coupon_name + ", user_type="
-				+ user_type + ", date_of_arrival=" + date_of_arrival + ", coupon_type=" + coupon_type + ", coupon_rule="
-				+ coupon_rule + ", term_of_validity=" + term_of_validity + ", is_use_time=" + is_use_time + ", count="
-				+ count + ", count_version=" + count_version + ", memo=" + memo + ", status=" + status + "]";
+				+ user_type + ", date_of_start=" + date_of_start + ", date_of_arrival=" + date_of_arrival
+				+ ", coupon_type=" + coupon_type + ", coupon_rule=" + coupon_rule + ", term_of_validity="
+				+ term_of_validity + ", is_use_time=" + is_use_time + ", count=" + count + ", count_version="
+				+ count_version + ", memo=" + memo + ", status=" + status + ", create_time=" + create_time + "]";
 	}
 	
 }

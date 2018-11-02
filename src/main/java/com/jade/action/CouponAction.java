@@ -39,4 +39,15 @@ public class CouponAction {
 		return couponService.getOneCoupon(account, coupon_id);
 	}
 	
+	/**
+	 * 根据用户名查找优惠券
+	 * @param 
+	 * @return
+	 */
+	@RequestMapping(value="/selectUserCouponByAccount.action",method=RequestMethod.POST)
+	public @ResponseBody Result selectUserCouponByAccount(HttpSession session){
+		String account = (String) session.getAttribute("account");
+		return couponService.selectUserCouponByAccount(account);
+	}
+	
 }

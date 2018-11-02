@@ -11,6 +11,8 @@ public interface CouponMapper {
     
     List<Coupon> selectCoupon(@Param("pageAmount")String pageAmount,@Param("pageSize")String pageSize);
     
+    List<UserCoupon> selectUserCouponByAccount(@Param("account")String account);
+    
     Coupon selectCouponById(@Param("coupon_id")String coupon_id);
     
     int selectAllCouponCount();
