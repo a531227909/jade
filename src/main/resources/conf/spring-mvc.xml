@@ -89,6 +89,7 @@
 					<value>/commodityManage/saveDoc.action</value>
 					<value>/authority/getUserPerformance.action</value>
 					<value>/commodityManage/downExcel.action</value>
+					<value>/callback/notify/weixin.action</value>
 				</list>
 			</property>
 			<property name="manageUris">

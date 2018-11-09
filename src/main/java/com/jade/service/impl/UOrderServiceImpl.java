@@ -292,6 +292,10 @@ public class UOrderServiceImpl implements UOrderService{
 				String cid =  list.get(i).getCid();
 				String rid =  list.get(i).getRid();
 				String sid =  list.get(i).getSid();
+				String number = list.get(i).getNumber();
+				String money = list.get(i).getMoney();
+				String user_coupon_id = list.get(i).getUser_coupon_id();
+				String user_coupon_money = list.get(i).getUser_coupon_money();
 				Commodity commodity = comMapper.selectByPrimaryKey(cid);
 				if(commodity!=null){
 					
@@ -314,7 +318,10 @@ public class UOrderServiceImpl implements UOrderService{
 						uorder.setRid(rid);
 						uorder.setSid(sid);
 						uorder.setType("1");
-//						uorder.setNumber(data.getString("number"));
+						uorder.setNumber(number);
+						uorder.setMoney(money);
+						uorder.setUser_coupon_id(user_coupon_id);
+						uorder.setUser_coupon_money(user_coupon_money);
 						Calendar calendar = Calendar.getInstance();
 				        calendar.add(Calendar.MINUTE, 30);
 				        String closeTime =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime());

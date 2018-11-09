@@ -238,11 +238,12 @@
     insert into u_order (order_id, cid, type, 
       sid, rid, order_time, 
       receving_time, end_time, account, 
-      reserve)
+      reserve,number,money,user_coupon_id,user_coupon_money)
     values (#{orderId,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{sid,jdbcType=VARCHAR}, #{rid,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, 
       #{recevingTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{account,jdbcType=VARCHAR}, 
-      #{reserve,jdbcType=VARCHAR})
+      #{reserve,jdbcType=VARCHAR},#{number,jdbcType=VARCHAR},#{money,jdbcType=VARCHAR},
+      #{user_coupon_id,jdbcType=VARCHAR},#{user_coupon_money,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jade.mod.Uorder" useGeneratedKeys="true" keyProperty="id" >
     insert into u_order

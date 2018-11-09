@@ -23,8 +23,14 @@ public class Uorder implements Serializable {
     private String account;
 
     private String reserve;
-    
+    //数量
     private String number;
+    //支付金额
+    private String money;
+    //用户优惠券ID
+    private String user_coupon_id;
+    //用户优惠金额
+    private String user_coupon_money;
 
     private static final long serialVersionUID = 1L;
 
@@ -115,6 +121,30 @@ public class Uorder implements Serializable {
 	public void setNumber(String number) {
 		this.number = number;
 	}
+	
+	public String getMoney() {
+		return money;
+	}
+
+	public void setMoney(String money) {
+		this.money = money;
+	}
+
+	public String getUser_coupon_id() {
+		return user_coupon_id;
+	}
+
+	public void setUser_coupon_id(String user_coupon_id) {
+		this.user_coupon_id = user_coupon_id;
+	}
+
+	public String getUser_coupon_money() {
+		return user_coupon_money;
+	}
+
+	public void setUser_coupon_money(String user_coupon_money) {
+		this.user_coupon_money = user_coupon_money;
+	}
 
 	@Override
     public String toString() {
@@ -133,6 +163,9 @@ public class Uorder implements Serializable {
         sb.append(", account=").append(account);
         sb.append(", reserve=").append(reserve);
         sb.append(", number=").append(number);
+        sb.append(", money=").append(money);
+        sb.append(", user_coupon_id=").append(user_coupon_id);
+        sb.append(", user_coupon_money=").append(user_coupon_money);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -160,7 +193,11 @@ public class Uorder implements Serializable {
             && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
             && (this.getAccount() == null ? other.getAccount() == null : this.getAccount().equals(other.getAccount()))
             && (this.getReserve() == null ? other.getReserve() == null : this.getReserve().equals(other.getReserve()))
-            && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()));
+            && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
+            && (this.getMoney() == null ? other.getMoney() == null : this.getMoney().equals(other.getMoney()))
+            && (this.getUser_coupon_id() == null ? other.getUser_coupon_id() == null : this.getUser_coupon_id().equals(other.getUser_coupon_id()))
+            && (this.getUser_coupon_money() == null ? other.getUser_coupon_money() == null : this.getUser_coupon_money().equals(other.getUser_coupon_money()));
+        
     }
 
     @Override
@@ -178,6 +215,9 @@ public class Uorder implements Serializable {
         result = prime * result + ((getAccount() == null) ? 0 : getAccount().hashCode());
         result = prime * result + ((getReserve() == null) ? 0 : getReserve().hashCode());
         result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
+        result = prime * result + ((getMoney() == null) ? 0 : getMoney().hashCode());
+        result = prime * result + ((getUser_coupon_id() == null) ? 0 : getUser_coupon_id().hashCode());
+        result = prime * result + ((getUser_coupon_money() == null) ? 0 : getUser_coupon_money().hashCode());
         return result;
     }
 }

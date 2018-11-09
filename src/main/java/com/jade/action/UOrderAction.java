@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jade.po.Result;
 import com.jade.service.UOrderService;
+import com.jade.service.UserPayService;
 
 @Controller
 @RequestMapping(value="uorder")
@@ -20,6 +21,8 @@ public class UOrderAction {
 
 	@Autowired
 	private UOrderService uOrderService;
+	@Autowired
+	private UserPayService userPayService;
 	
 	/**
 	 * 插入下单信息
@@ -39,7 +42,10 @@ public class UOrderAction {
 	@RequestMapping(value="/insertOrderByCart.action",method=RequestMethod.POST)
 	public @ResponseBody Result insertOrderByCart(@RequestBody JSONObject data, HttpSession session){
 		String account = (String) session.getAttribute("account");
-			return uOrderService.insertOrderByCart(data, account);
+		data.put("account", account);
+		System.out.println(data.toString());
+		return userPayService.pay(data, account);
+//			return uOrderService.insertOrderByCart(data, account);
 		
 		//return commodityService.getCommodityByPrice(beginPrice, endPrice);
 	}

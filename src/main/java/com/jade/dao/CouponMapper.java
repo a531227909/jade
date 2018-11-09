@@ -13,6 +13,8 @@ public interface CouponMapper {
     
     List<UserCoupon> selectUserCouponByAccount(@Param("account")String account);
     
+    UserCoupon selectUserCouponByID(@Param("user_coupon_id")String user_coupon_id);
+    
     Coupon selectCouponById(@Param("coupon_id")String coupon_id);
     
     int selectAllCouponCount();

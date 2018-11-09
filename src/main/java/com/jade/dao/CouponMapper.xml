@@ -21,6 +21,11 @@
 	FROM user_coupon WHERE account = #{account}
   </select>
   
+    <select id="selectUserCouponByID" resultType="com.jade.mod.UserCoupon" parameterType="java.lang.String">
+  	SELECT ucp_id,user_coupon_id,coupon_id,account,coupon_name,coupon_type,coupon_rule,term_of_validity,create_time,cid,status
+	FROM user_coupon WHERE user_coupon_id = #{user_coupon_id}
+  </select>
+  
   <insert id="insertUserCouponCount" parameterType="java.lang.String">
 	insert into user_coupon (user_coupon_id,coupon_id,account,coupon_name,coupon_type,coupon_rule,term_of_validity)
 	values (#{user_coupon_id},#{coupon_id},#{account},#{coupon_name},#{coupon_type},#{coupon_rule},#{term_of_validity})

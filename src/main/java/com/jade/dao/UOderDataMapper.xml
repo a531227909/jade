@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jade.dao.UOderDataMapper" >
+
+  <select id="selectUOderDataByID" resultType="com.jade.mod.UOderData" parameterType="java.lang.String">
+  	SELECT u_order_data_id,data,is_callback,create_time from u_order_data
+  	where u_order_data_id = #{u_order_data_id}
+  </select>
+  
+  <insert id="insertUOderData" parameterType="com.jade.mod.UOderData">
+	insert into u_order_data (u_order_data_id,data)
+	values (#{u_order_data_id},#{data})
+  </insert>
+  
+  <update id="updateIsCallBackByID" parameterType="java.lang.String">
+	update u_order_data set is_callback = #{is_callback} where u_order_data_id = #{u_order_data_id}
+  </update>
+  
+  <delete id="deleteUOderDataByID" parameterType="java.lang.String">
+	delete from u_order_data where u_order_data_id = #{u_order_data_id}
+  </delete>
+  
+</mapper>
