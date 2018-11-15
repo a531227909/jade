@@ -18,11 +18,16 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 	@Autowired
 	private CustomerServiceMapper customerServiceMapper;
 	
+	/*
+	 * 分页数据量（每页多少数据）
+	 */
+	final static String pageSize = "10";
+	
 	@Override
 	public Result selectCustomerService(String account) {
 		Result result = new Result();
 		List<CustomerService> customerServices = customerServiceMapper.selectByAccount(account);
-		customerServiceMapper.updateReplyIsRead("1", account);
+		customerServiceMapper.updateReplyIsRead("0", account);
 		result.setSuccess(true);
 		result.getResult().put("data", customerServices);
 		return result;
@@ -33,7 +38,7 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 		Result result = new Result();
 		List<CustomerService> customerServices = customerServiceMapper.selectByAccount(account);
 		if(StringUtils.isNotBlank(account)){
-			customerServiceMapper.updateIsRead("1", account);
+			customerServiceMapper.updateIsRead("0", account);
 		}
 		result.setSuccess(true);
 		result.getResult().put("data", customerServices);
@@ -59,8 +64,8 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 		CustomerService customerService = new CustomerService();
 		customerService.setAccount(account);
 		customerService.setContent(content);
-		//0未读 1已读
-		customerService.setIs_read("0");
+		//0已读，1未读
+		customerService.setIs_read("1");
 		int i = customerServiceMapper.insert(customerService);
 		if(i==1){
 			result.setSuccess(true);
@@ -79,8 +84,8 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 		customer_service.setAccount(account);
 		customer_service.setCustomer_service(customerService);
 		customer_service.setContent(content);
-		//0未读 1已读
-		customer_service.setIs_read("0");
+		//0已读，1未读
+		customer_service.setIs_read("1");
 		int i = customerServiceMapper.insert(customer_service);
 		if(i==1){
 			result.setSuccess(true);
@@ -89,6 +94,16 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 			result.setSuccess(false);
 			result.getResult().put("error", "error");
 		}
+		return result;
+	}
+
+	@Override
+	public Result selectLastByAccount(String account, String is_read, String page) {
+		Result result = new Result();
+		String pageAmount = String.valueOf((Integer.parseInt(page)-1)*Integer.parseInt(pageSize));
+		List<CustomerService> customerServices = customerServiceMapper.selectLastByAccount(account, is_read, pageAmount, pageSize);
+		result.setSuccess(true);
+		result.getResult().put("data", customerServices);
 		return result;
 	}
 	

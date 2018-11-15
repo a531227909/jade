@@ -6,6 +6,8 @@ public class CustomerService implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	//自增ID
+	private String customer_service_id;
 	//用户
 	private String account;
 	//客服
@@ -21,6 +23,12 @@ public class CustomerService implements Serializable {
 	//姓名
 	private String name;
 	
+	public String getCustomer_service_id() {
+		return customer_service_id;
+	}
+	public void setCustomer_service_id(String customer_service_id) {
+		this.customer_service_id = customer_service_id;
+	}
 	public String getAccount() {
 		return account;
 	}
@@ -66,8 +74,9 @@ public class CustomerService implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "CustomerService [account=" + account + ", customer_service=" + customer_service + ", content=" + content
-				+ ", create_time=" + create_time + ", is_read=" + is_read + ", phone=" + phone + ", name=" + name + "]";
+		return "CustomerService [customer_service_id=" + customer_service_id + ", account=" + account
+				+ ", customer_service=" + customer_service + ", content=" + content + ", create_time=" + create_time
+				+ ", is_read=" + is_read + ", phone=" + phone + ", name=" + name + "]";
 	}
 	
 }

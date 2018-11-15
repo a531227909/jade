@@ -65,6 +65,10 @@ public class Coupon implements Serializable {
 	 * 创建时间
 	 */
 	private String create_time;
+	/*
+	 * 用户账户
+	 */
+	private String account;
 	
 	public String getCp_id() {
 		return cp_id;
@@ -156,6 +160,12 @@ public class Coupon implements Serializable {
 	public void setCreate_time(String create_time) {
 		this.create_time = create_time;
 	}
+	public String getAccount() {
+		return account;
+	}
+	public void setAccount(String account) {
+		this.account = account;
+	}
 	
 	@Override
 	public String toString() {
@@ -163,7 +173,8 @@ public class Coupon implements Serializable {
 				+ user_type + ", date_of_start=" + date_of_start + ", date_of_arrival=" + date_of_arrival
 				+ ", coupon_type=" + coupon_type + ", coupon_rule=" + coupon_rule + ", term_of_validity="
 				+ term_of_validity + ", is_use_time=" + is_use_time + ", count=" + count + ", count_version="
-				+ count_version + ", memo=" + memo + ", status=" + status + ", create_time=" + create_time + "]";
+				+ count_version + ", memo=" + memo + ", status=" + status + ", create_time=" + create_time
+				+ ", account=" + account + "]";
 	}
 	
 }

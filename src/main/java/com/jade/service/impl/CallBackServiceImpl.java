@@ -1,19 +1,28 @@
 package com.jade.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jade.dao.CommodityMapper;
+import com.jade.dao.CouponMapper;
 import com.jade.dao.UOderDataMapper;
+import com.jade.mod.Commodity;
 import com.jade.mod.UOderData;
+import com.jade.mod.UserCoupon;
 import com.jade.po.Result;
 import com.jade.service.CallBackService;
 import com.jade.service.UOrderService;
+import com.jade.uitil.IdUtil;
+import com.jade.uitil.PriceUtils;
 import com.jade.uitil.payUtils.SignUtils;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 @Service
 public class CallBackServiceImpl implements CallBackService{
@@ -23,6 +32,12 @@ public class CallBackServiceImpl implements CallBackService{
 	
 	@Autowired
 	private UOderDataMapper uOderDataMapper;
+	
+	@Autowired
+	private CommodityMapper comMapper;
+	
+	@Autowired
+	private CouponMapper couponMapper;
 
 	@Override
 	public String callBack(Map<String, String> params) {
@@ -153,6 +168,29 @@ public class CallBackServiceImpl implements CallBackService{
 				if("SUCCESS".equals(result_code)){
 					UOderData uOderData = uOderDataMapper.selectUOderDataByID(out_trade_no);
 					JSONObject dataOfUOder = JSONObject.fromObject(uOderData.getData());
+					
+					//修改优惠券状态为0(已使用)
+					try {
+						JSONArray jsonArray = dataOfUOder.getJSONArray("data");
+						List<IdUtil> list = (List) JSONArray.toCollection(jsonArray, IdUtil.class); 
+						String cid;
+						String user_coupon_id;
+						for(int i=0;i<list.size();i++){
+							cid =  list.get(i).getCid();
+							user_coupon_id = list.get(i).getUser_coupon_id();
+							Commodity commodity = comMapper.selectByPrimaryKey(cid);
+							if(commodity!=null){
+								if(!commodity.getStatus().equals("0")){
+									if(StringUtils.isNotBlank(user_coupon_id)){
+										couponMapper.updateUserCouponStatus(user_coupon_id, dataOfUOder.getString("account"), "0");
+									}
+								}
+							}
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
 					if(uOderData.getIs_callback().equals("1")){
 						result.setSuccess(true);
 						result.getResult().put("data", dataOfUOder.toString());

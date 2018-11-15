@@ -66,6 +66,12 @@ public class CouponManageAction {
 			result.setSuccess(false);
 			result.getResult().put("msg", "添加失败:优惠券是否开启限制时间不能为空");
 			return result;
+		}else if(coupon.getIs_use_time().equals("0")){
+			if(StringUtils.isBlank(coupon.getTerm_of_validity())){
+				result.setSuccess(false);
+				result.getResult().put("msg", "添加失败:优惠券有效期不能为空");
+				return result;
+			}
 		}else if(StringUtils.isBlank(coupon.getCount())){
 			result.setSuccess(false);
 			result.getResult().put("msg", "添加失败:优惠券数量不能为空");

@@ -3,7 +3,8 @@
 <mapper namespace="com.jade.dao.CouponMapper" >
 
   <select id="selectCoupon" resultType="com.jade.mod.Coupon" parameterType="java.lang.String">
-  	SELECT cp_id,coupon_id,coupon_name,user_type,date_of_start,date_of_arrival,coupon_type,coupon_rule,term_of_validity,is_use_time,count,count_version,memo,status,create_time FROM coupon WHERE status=0 and date_of_arrival<![CDATA[ >= ]]>now() and cp_id <![CDATA[ <= ]]>
+	SELECT cp.cp_id,cp.coupon_id,cp.coupon_name,cp.user_type,cp.date_of_start,cp.date_of_arrival,cp.coupon_type,cp.coupon_rule,cp.term_of_validity,cp.is_use_time,cp.count,cp.count_version,cp.memo,cp.status,cp.create_time,ucp.account
+	FROM coupon as cp LEFT JOIN (select * from user_coupon where account=#{account}) as ucp on cp.coupon_id=ucp.coupon_id WHERE cp.status=0 and cp.date_of_arrival <![CDATA[ >= ]]> now() and cp.cp_id <![CDATA[ <= ]]>
 	(SELECT cp_id FROM coupon ORDER BY cp_id desc LIMIT ${pageAmount},1) ORDER BY cp_id desc LIMIT ${pageSize}
   </select>
   
@@ -30,6 +31,10 @@
 	insert into user_coupon (user_coupon_id,coupon_id,account,coupon_name,coupon_type,coupon_rule,term_of_validity)
 	values (#{user_coupon_id},#{coupon_id},#{account},#{coupon_name},#{coupon_type},#{coupon_rule},#{term_of_validity})
   </insert>
+  
+  <update id="updateUserCouponStatus" parameterType="java.lang.String">
+	update user_coupon set status = #{status} where user_coupon_id = #{user_coupon_id} and account = #{account}
+  </update>
   
   <update id="updateCouponCount" parameterType="java.lang.String">
 	update coupon set count = #{count},count_version = #{next_count_version} where coupon_id = #{coupon_id} and count_version = #{count_version}

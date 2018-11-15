@@ -15,7 +15,9 @@ public interface CustomerServiceMapper {
 	
 	CustomerInformation selectCustomerInformation(@Param("account")String account);
     
-    List<CustomerService> selectByAccount(@Param("account")String account);
+	List<CustomerService> selectByAccount(@Param("account")String account);
+	
+	List<CustomerService> selectLastByAccount(@Param("account")String account, @Param("is_read")String is_read, @Param("pageAmount")String pageAmount, @Param("pageSize")String pageSize);
     
     int updateCustomerInformation(@Param("account")String account, @Param("phone")String phone, @Param("name")String name);
     

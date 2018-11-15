@@ -24,8 +24,9 @@ public class CouponAction {
 	 * @return
 	 */
 	@RequestMapping(value="/getCouponList.action",method=RequestMethod.POST)
-	public @ResponseBody Result getCouponList(String page){
-		return couponService.selectCoupon(page);
+	public @ResponseBody Result getCouponList(String page, HttpSession session){
+		String account = (String) session.getAttribute("account");
+		return couponService.selectCoupon(account, page);
 	}
 	
 	/**

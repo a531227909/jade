@@ -27,10 +27,10 @@ public class CouponServiceImpl implements CouponService{
 	final static String pageSize = "10";
 
 	@Override
-	public Result selectCoupon(String page) {
+	public Result selectCoupon(String account, String page) {
 		Result result = new Result();
 		String pageAmount = String.valueOf((Integer.parseInt(page)-1)*Integer.parseInt(pageSize));
-		List<Coupon> coupons = couponMapper.selectCoupon(pageAmount, pageSize);
+		List<Coupon> coupons = couponMapper.selectCoupon(account, pageAmount, pageSize);
 		int allCount = couponMapper.selectAllCouponCount();
 		result.setSuccess(true);
 		result.getResult().put("data", coupons);

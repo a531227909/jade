@@ -3,11 +3,24 @@
 <mapper namespace="com.jade.dao.CustomerServiceMapper" >
 
   <select id="selectByAccount" resultType="com.jade.mod.CustomerService" parameterType="java.lang.String">
-	select cs.account,cs.customer_service,cs.content,cs.create_time,cs.is_read,ci.phone,ci.name
+	select cs.customer_service_id,cs.account,cs.customer_service,cs.content,cs.create_time,cs.is_read,ci.phone,ci.name
 	from customer_service cs LEFT JOIN customer_information ci on cs.account=ci.account
 	<if test="account != null">
 		where cs.account = #{account,jdbcType=VARCHAR}
 	</if>
+  </select>
+  
+  <select id="selectLastByAccount" resultType="com.jade.mod.CustomerService" parameterType="java.lang.String">
+	select * from (SELECT customer_service_id,customer_service,account,content,is_read,MAX(create_time) create_time FROM customer_service  GROUP BY account ORDER BY create_time desc) as a
+	where
+	<if test="account != null">
+		a.account = #{account,jdbcType=VARCHAR} and
+	</if>
+	<if test="is_read != null">
+	a.is_read= #{is_read,jdbcType=VARCHAR} and
+	</if>
+	customer_service_id <![CDATA[ <= ]]>
+	(SELECT customer_service_id FROM customer_service ORDER BY customer_service_id desc LIMIT ${pageAmount},1) ORDER BY customer_service_id desc LIMIT ${pageSize}
   </select>
   
   <select id="selectCustomerInformation" resultType="com.jade.mod.CustomerInformation" parameterType="java.lang.String">

@@ -72,4 +72,15 @@ public class CustomerServiceAction {
 		return customerServiceService.replyCustomerService(account, customerService, content);
 	}
 	
+	/**
+	 * 客服根据用户账号查询所有用户客服状态
+	 * @param account
+	 * @param content
+	 * @return
+	 */
+	@RequestMapping(value="/selectLastByAccount.action",method=RequestMethod.POST)
+	public @ResponseBody Result selectLastByAccount(String account, String is_read, String page) {
+		return customerServiceService.selectLastByAccount(account, is_read, page);
+	}
+	
 }
