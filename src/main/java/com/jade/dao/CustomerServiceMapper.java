@@ -24,4 +24,6 @@ public interface CustomerServiceMapper {
     int updateIsRead(@Param("is_read")String is_read, @Param("account")String account);
     
     int updateReplyIsRead(@Param("is_read")String is_read, @Param("account")String account);
+    
+    int selectLastByAccountCount(@Param("account")String account, @Param("is_read")String is_read);
 }

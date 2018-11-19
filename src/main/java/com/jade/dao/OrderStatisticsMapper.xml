@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jade.dao.OrderStatisticsMapper" >
+
+  <select id="selectOrderStatisticsByDate" resultType="com.jade.mod.Uorder" parameterType="java.lang.String">
+  	SELECT id,order_id,cid,type,sid,rid,order_time,receving_time,end_time,account,reserve,number,money,user_coupon_id,user_coupon_money FROM u_order WHERE
+	<if test="account != null and account != ''">
+		account = #{account,jdbcType=VARCHAR} and
+	</if>
+	order_time BETWEEN #{startTime} and #{endTime} and id <![CDATA[ <= ]]>
+	(SELECT id FROM u_order ORDER BY id desc LIMIT ${pageAmount},1) ORDER BY id desc LIMIT ${pageSize}
+  </select>
+  
+  <select id="selectOrderCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+	SELECT count(*) FROM u_order WHERE order_time BETWEEN #{startTime} and #{endTime}
+  </select>
+  
+</mapper>

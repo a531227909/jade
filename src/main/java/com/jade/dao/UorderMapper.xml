@@ -91,7 +91,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    order_id, cid, type, sid, rid, order_time, receving_time, end_time, account, reserve
+    order_id, cid, type, sid, rid, order_time, receving_time, end_time, account, reserve, user_coupon_id, money, user_coupon_money, number
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jade.mod.UorderExample" >
     select
@@ -117,7 +117,7 @@
   </select>
   
   <select id="getMyAllUOrder" resultType="map" parameterType="map" >
-   select u.type type, u.order_id oId,u.rid rId,u.cid cId,re.`name` rName,re.telephone rTelephone,co.`name` cName,u.order_time orderTime,
+   select u.type type, u.order_id oId,u.rid rId,u.cid cId,re.`name` rName,re.telephone rTelephone,co.`name` cName,u.order_time orderTime,u.number number,u.user_coupon_id user_coupon_id,u.money money,u.user_coupon_money user_coupon_money,
    u.receving_time recevingTime,u.end_time endTime,u.reserve closeTime,u.number number,co.color cColor,co.price cPrice,co.commodityImg img,co.isNoPackagemaill video
    		
    		from commodity co, receiving_note re, u_order u,
@@ -186,16 +186,15 @@
 		<![CDATA[where c.time <0 and b.type='2' AND b.cid = d.cid]]>
   </update>
    <select id="selectByOrderIdtoOne" resultType="map" parameterType="java.lang.String">
-	select a.order_id oId,a.order_time oTime,a.receving_time rTime,a.end_time eTime,c.`name` cName,
+	select a.order_id oId,a.order_time oTime,a.receving_time rTime,a.end_time eTime,a.number number,a.user_coupon_id user_coupon_id,a.money money,a.user_coupon_money user_coupon_money,c.`name` cName,
 	c.commodityImg img,c.price cPrice,c.color cColor,d.`name` sName,a.type oType,b.address rAddress,
 	b.`name` rName,b.city rCity,b.telephone rTelephone ,c.isNoPackagemaill video
 	
-		from u_order a,receiving_note b,commodity c,supplier d 
-		where a.cid = c.cid and a.rid=b.id and a.sid = d.sid  and a.order_id=#{orderId,jdbcType=VARCHAR} 
-		
-  </select>
+		from u_order a,receiving_note b,commodity c,supplier d
+		where a.cid = c.cid and a.rid=b.id and a.sid = d.sid  and a.order_id=#{orderId,jdbcType=VARCHAR}
+  </select>	
   <select id="selectByOrderId" resultType="map" parameterType="java.lang.String">
-	select a.order_id oId,a.order_time oTime,a.receving_time rTime,a.end_time eTime,c.`name` cName,
+	select a.order_id oId,a.order_time oTime,a.receving_time rTime,a.end_time eTime,a.number number,a.user_coupon_id user_coupon_id,a.money money,a.user_coupon_money user_coupon_money,c.`name` cName,
 	c.commodityImg img,c.price cPrice,c.color cColor,d.`name` sName,a.type oType,b.address rAddress,
 	b.`name` rName,b.city rCity,b.telephone rTelephone ,c.isNoPackagemaill video,e.express_company expressCompany,e.express_id expressId
 	

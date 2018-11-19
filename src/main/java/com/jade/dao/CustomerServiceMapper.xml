@@ -5,7 +5,7 @@
   <select id="selectByAccount" resultType="com.jade.mod.CustomerService" parameterType="java.lang.String">
 	select cs.customer_service_id,cs.account,cs.customer_service,cs.content,cs.create_time,cs.is_read,ci.phone,ci.name
 	from customer_service cs LEFT JOIN customer_information ci on cs.account=ci.account
-	<if test="account != null">
+	<if test="account != null and account != ''">
 		where cs.account = #{account,jdbcType=VARCHAR}
 	</if>
   </select>
@@ -13,19 +13,31 @@
   <select id="selectLastByAccount" resultType="com.jade.mod.CustomerService" parameterType="java.lang.String">
 	select * from (SELECT customer_service_id,customer_service,account,content,is_read,MAX(create_time) create_time FROM customer_service  GROUP BY account ORDER BY create_time desc) as a
 	where
-	<if test="account != null">
-		a.account = #{account,jdbcType=VARCHAR} and
-	</if>
-	<if test="is_read != null">
-	a.is_read= #{is_read,jdbcType=VARCHAR} and
-	</if>
+		<if test="account != null and account != ''">
+			a.account = #{account,jdbcType=VARCHAR} and
+		</if>
+		<if test="is_read != null and is_read != ''">
+			a.is_read= #{is_read,jdbcType=VARCHAR} and
+		</if>
 	customer_service_id <![CDATA[ <= ]]>
 	(SELECT customer_service_id FROM customer_service ORDER BY customer_service_id desc LIMIT ${pageAmount},1) ORDER BY customer_service_id desc LIMIT ${pageSize}
   </select>
   
+  <select id="selectLastByAccountCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+	select count(*) from (SELECT customer_service_id,customer_service,account,content,is_read,MAX(create_time) create_time FROM customer_service  GROUP BY account ORDER BY create_time desc) as a
+	<where>
+		<if test="account != null and account != ''">
+			and a.account = #{account,jdbcType=VARCHAR}
+		</if>
+		<if test="is_read != null and is_read != ''">
+			and a.is_read= #{is_read,jdbcType=VARCHAR}
+		</if>
+	</where>
+  </select>
+  
   <select id="selectCustomerInformation" resultType="com.jade.mod.CustomerInformation" parameterType="java.lang.String">
 	select account,phone,name from customer_information
-	<if test="account != null">
+	<if test="account != null and account != ''">
 		where account = #{account,jdbcType=VARCHAR}
 	</if>
   </select>

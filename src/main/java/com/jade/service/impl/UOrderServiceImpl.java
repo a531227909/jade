@@ -213,7 +213,12 @@ public class UOrderServiceImpl implements UOrderService{
 				result.getResult().put("data", list);
 			}else{
 				List<Map<String,Object>> list = uOrderMapper.selectByOrderId(orderId);
-				//System.out.println(list);
+				for(Map<String,Object> map : list){
+					for(String key : map.keySet()){
+						System.out.println("Key = " + key+"value = " + map.get(key));
+					}
+				}
+				System.out.println(list);
 				
 					if("3".equals(list.get(0).get("oType"))){
 						int type3 = uOrderMapper.selectByType3(list.get(0).get("oId").toString());

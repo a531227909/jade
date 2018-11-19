@@ -4,7 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Uorder implements Serializable {
-    private String orderId;
+	
+	private String id;
+	
+	private String orderId;
+	
+	private String order_id;
 
     private String cid;
 
@@ -15,10 +20,16 @@ public class Uorder implements Serializable {
     private String rid;
 
     private Date orderTime;
+    
+    private Date order_time;
 
     private Date recevingTime;
+    
+    private Date receving_time;
 
     private Date endTime;
+    
+    private Date end_time;
 
     private String account;
 
@@ -33,16 +44,56 @@ public class Uorder implements Serializable {
     private String user_coupon_money;
 
     private static final long serialVersionUID = 1L;
+    
+    public Date getOrder_time() {
+		return order_time;
+	}
 
-    public String getOrderId() {
+	public void setOrder_time(Date order_time) {
+		this.order_time = order_time;
+	}
+
+	public Date getReceving_time() {
+		return receving_time;
+	}
+
+	public void setReceving_time(Date receving_time) {
+		this.receving_time = receving_time;
+	}
+
+	public Date getEnd_time() {
+		return end_time;
+	}
+
+	public void setEnd_time(Date end_time) {
+		this.end_time = end_time;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getOrderId() {
         return orderId;
     }
 
     public void setOrderId(String orderId) {
         this.orderId = orderId == null ? null : orderId.trim();
     }
+    
+    public String getOrder_id() {
+		return order_id;
+	}
 
-    public String getCid() {
+	public void setOrder_id(String order_id) {
+		this.order_id = order_id;
+	}
+
+	public String getCid() {
         return cid;
     }
 
@@ -145,79 +196,148 @@ public class Uorder implements Serializable {
 	public void setUser_coupon_money(String user_coupon_money) {
 		this.user_coupon_money = user_coupon_money;
 	}
+	
+	@Override
+	public String toString() {
+		return "Uorder [id=" + id + ", orderId=" + orderId + ", order_id=" + order_id + ", cid=" + cid + ", type="
+				+ type + ", sid=" + sid + ", rid=" + rid + ", orderTime=" + orderTime + ", order_time=" + order_time
+				+ ", recevingTime=" + recevingTime + ", receving_time=" + receving_time + ", endTime=" + endTime
+				+ ", end_time=" + end_time + ", account=" + account + ", reserve=" + reserve + ", number=" + number
+				+ ", money=" + money + ", user_coupon_id=" + user_coupon_id + ", user_coupon_money=" + user_coupon_money
+				+ "]";
+	}
 
 	@Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", orderId=").append(orderId);
-        sb.append(", cid=").append(cid);
-        sb.append(", type=").append(type);
-        sb.append(", sid=").append(sid);
-        sb.append(", rid=").append(rid);
-        sb.append(", orderTime=").append(orderTime);
-        sb.append(", recevingTime=").append(recevingTime);
-        sb.append(", endTime=").append(endTime);
-        sb.append(", account=").append(account);
-        sb.append(", reserve=").append(reserve);
-        sb.append(", number=").append(number);
-        sb.append(", money=").append(money);
-        sb.append(", user_coupon_id=").append(user_coupon_id);
-        sb.append(", user_coupon_money=").append(user_coupon_money);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((account == null) ? 0 : account.hashCode());
+		result = prime * result + ((cid == null) ? 0 : cid.hashCode());
+		result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
+		result = prime * result + ((end_time == null) ? 0 : end_time.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((money == null) ? 0 : money.hashCode());
+		result = prime * result + ((number == null) ? 0 : number.hashCode());
+		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
+		result = prime * result + ((orderTime == null) ? 0 : orderTime.hashCode());
+		result = prime * result + ((order_id == null) ? 0 : order_id.hashCode());
+		result = prime * result + ((order_time == null) ? 0 : order_time.hashCode());
+		result = prime * result + ((recevingTime == null) ? 0 : recevingTime.hashCode());
+		result = prime * result + ((receving_time == null) ? 0 : receving_time.hashCode());
+		result = prime * result + ((reserve == null) ? 0 : reserve.hashCode());
+		result = prime * result + ((rid == null) ? 0 : rid.hashCode());
+		result = prime * result + ((sid == null) ? 0 : sid.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((user_coupon_id == null) ? 0 : user_coupon_id.hashCode());
+		result = prime * result + ((user_coupon_money == null) ? 0 : user_coupon_money.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        Uorder other = (Uorder) that;
-        return (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
-            && (this.getCid() == null ? other.getCid() == null : this.getCid().equals(other.getCid()))
-            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
-            && (this.getSid() == null ? other.getSid() == null : this.getSid().equals(other.getSid()))
-            && (this.getRid() == null ? other.getRid() == null : this.getRid().equals(other.getRid()))
-            && (this.getOrderTime() == null ? other.getOrderTime() == null : this.getOrderTime().equals(other.getOrderTime()))
-            && (this.getRecevingTime() == null ? other.getRecevingTime() == null : this.getRecevingTime().equals(other.getRecevingTime()))
-            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
-            && (this.getAccount() == null ? other.getAccount() == null : this.getAccount().equals(other.getAccount()))
-            && (this.getReserve() == null ? other.getReserve() == null : this.getReserve().equals(other.getReserve()))
-            && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
-            && (this.getMoney() == null ? other.getMoney() == null : this.getMoney().equals(other.getMoney()))
-            && (this.getUser_coupon_id() == null ? other.getUser_coupon_id() == null : this.getUser_coupon_id().equals(other.getUser_coupon_id()))
-            && (this.getUser_coupon_money() == null ? other.getUser_coupon_money() == null : this.getUser_coupon_money().equals(other.getUser_coupon_money()));
-        
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Uorder other = (Uorder) obj;
+		if (account == null) {
+			if (other.account != null)
+				return false;
+		} else if (!account.equals(other.account))
+			return false;
+		if (cid == null) {
+			if (other.cid != null)
+				return false;
+		} else if (!cid.equals(other.cid))
+			return false;
+		if (endTime == null) {
+			if (other.endTime != null)
+				return false;
+		} else if (!endTime.equals(other.endTime))
+			return false;
+		if (end_time == null) {
+			if (other.end_time != null)
+				return false;
+		} else if (!end_time.equals(other.end_time))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (money == null) {
+			if (other.money != null)
+				return false;
+		} else if (!money.equals(other.money))
+			return false;
+		if (number == null) {
+			if (other.number != null)
+				return false;
+		} else if (!number.equals(other.number))
+			return false;
+		if (orderId == null) {
+			if (other.orderId != null)
+				return false;
+		} else if (!orderId.equals(other.orderId))
+			return false;
+		if (orderTime == null) {
+			if (other.orderTime != null)
+				return false;
+		} else if (!orderTime.equals(other.orderTime))
+			return false;
+		if (order_id == null) {
+			if (other.order_id != null)
+				return false;
+		} else if (!order_id.equals(other.order_id))
+			return false;
+		if (order_time == null) {
+			if (other.order_time != null)
+				return false;
+		} else if (!order_time.equals(other.order_time))
+			return false;
+		if (recevingTime == null) {
+			if (other.recevingTime != null)
+				return false;
+		} else if (!recevingTime.equals(other.recevingTime))
+			return false;
+		if (receving_time == null) {
+			if (other.receving_time != null)
+				return false;
+		} else if (!receving_time.equals(other.receving_time))
+			return false;
+		if (reserve == null) {
+			if (other.reserve != null)
+				return false;
+		} else if (!reserve.equals(other.reserve))
+			return false;
+		if (rid == null) {
+			if (other.rid != null)
+				return false;
+		} else if (!rid.equals(other.rid))
+			return false;
+		if (sid == null) {
+			if (other.sid != null)
+				return false;
+		} else if (!sid.equals(other.sid))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		if (user_coupon_id == null) {
+			if (other.user_coupon_id != null)
+				return false;
+		} else if (!user_coupon_id.equals(other.user_coupon_id))
+			return false;
+		if (user_coupon_money == null) {
+			if (other.user_coupon_money != null)
+				return false;
+		} else if (!user_coupon_money.equals(other.user_coupon_money))
+			return false;
+		return true;
+	}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
-        result = prime * result + ((getCid() == null) ? 0 : getCid().hashCode());
-        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
-        result = prime * result + ((getSid() == null) ? 0 : getSid().hashCode());
-        result = prime * result + ((getRid() == null) ? 0 : getRid().hashCode());
-        result = prime * result + ((getOrderTime() == null) ? 0 : getOrderTime().hashCode());
-        result = prime * result + ((getRecevingTime() == null) ? 0 : getRecevingTime().hashCode());
-        result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
-        result = prime * result + ((getAccount() == null) ? 0 : getAccount().hashCode());
-        result = prime * result + ((getReserve() == null) ? 0 : getReserve().hashCode());
-        result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
-        result = prime * result + ((getMoney() == null) ? 0 : getMoney().hashCode());
-        result = prime * result + ((getUser_coupon_id() == null) ? 0 : getUser_coupon_id().hashCode());
-        result = prime * result + ((getUser_coupon_money() == null) ? 0 : getUser_coupon_money().hashCode());
-        return result;
-    }
 }

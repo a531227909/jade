@@ -30,6 +30,7 @@ public class CouponServiceManageImpl implements CouponManageService{
 		int allCount = couponManageMapper.selectAllCouponCount();
 		result.setSuccess(true);
 		result.getResult().put("data", coupons);
+		result.getResult().put("totalData", allCount);
 		result.getResult().put("pages", String.valueOf(allCount/Integer.parseInt(pageSize)+1));
 		return result;
 	}
