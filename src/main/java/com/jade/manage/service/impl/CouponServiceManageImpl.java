@@ -28,10 +28,11 @@ public class CouponServiceManageImpl implements CouponManageService{
 		String pageAmount = String.valueOf((Integer.parseInt(page)-1)*Integer.parseInt(pageSize));
 		List<Coupon> coupons = couponManageMapper.selectCoupon(pageAmount, pageSize);
 		int allCount = couponManageMapper.selectAllCouponCount();
+		float num = (allCount-1)/Integer.parseInt(pageSize)+1;
 		result.setSuccess(true);
 		result.getResult().put("data", coupons);
 		result.getResult().put("totalData", allCount);
-		result.getResult().put("pages", String.valueOf(allCount/Integer.parseInt(pageSize)+1));
+		result.getResult().put("pages", Integer.toString((int) Math.floor(num)));
 		return result;
 	}
 

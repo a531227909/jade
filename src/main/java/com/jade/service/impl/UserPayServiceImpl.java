@@ -82,40 +82,50 @@ public class UserPayServiceImpl implements UserPayService{
 				Commodity commodity = comMapper.selectByPrimaryKey(cid);
 				if(commodity!=null){
 					price = PriceUtils.getPayPrice(commodity.getPrice(), number);
-					System.out.println("one_real_pay"+Double.parseDouble(price)*Double.parseDouble(number));
-					System.out.println("one_total_pay"+Double.parseDouble(money));
-					System.out.println(Double.doubleToLongBits(Double.parseDouble(price)*Double.parseDouble(number))==Double.doubleToLongBits(Double.parseDouble(money)));
-					if(Double.doubleToLongBits(Double.parseDouble(price)*Double.parseDouble(number))==Double.doubleToLongBits(Double.parseDouble(money))){
-						if(!commodity.getStatus().equals("0")){
-							if(StringUtils.isBlank(user_coupon_id)){
-								real_pay += Double.parseDouble(price)*Double.parseDouble(number);
-								retu.add("商品"+cid+",下单成功");
+					if(StringUtils.isBlank(user_coupon_id)){
+						if(Double.doubleToLongBits(Double.parseDouble(price)*Double.parseDouble(number))==Double.doubleToLongBits(Double.parseDouble(money))){
+							if(!commodity.getStatus().equals("0")){
+									real_pay += Double.parseDouble(price)*Double.parseDouble(number);
+									retu.add("商品"+cid+",下单成功");
 							}else{
-								UserCoupon userCoupon = couponMapper.selectUserCouponByID(user_coupon_id);
-								String[] coupon_rule = userCoupon.getCoupon_rule().split("-");
-								if(Double.doubleToLongBits(Double.parseDouble(price)*Double.parseDouble(number))>=Double.doubleToLongBits(Double.parseDouble(coupon_rule[0]))){
+								retu.add("商品"+cid+",已下架");
+							}
+						}else{
+							result.setSuccess(false);
+							result.getResult().put("error", "支付系统金额错误，请稍后重试或联系客服！");
+						}
+					}else{
+						if(!commodity.getStatus().equals("0")){
+							UserCoupon userCoupon = couponMapper.selectUserCouponByID(user_coupon_id);
+							String[] coupon_rule = userCoupon.getCoupon_rule().split("-");
+							if(Double.doubleToLongBits(Double.parseDouble(price)*Double.parseDouble(number))>=Double.doubleToLongBits(Double.parseDouble(coupon_rule[0]))){
+								if(Double.doubleToLongBits(Double.parseDouble(price)*Double.parseDouble(number)-Double.parseDouble(coupon_rule[1]))==Double.doubleToLongBits(Double.parseDouble(money))){
 									real_pay += Double.parseDouble(price)*Double.parseDouble(number)-Double.parseDouble(coupon_rule[1]);
 									retu.add("商品"+cid+",下单成功");
 								}else{
+									result.setSuccess(false);
+									result.getResult().put("error", "支付系统金额错误，请稍后重试或联系客服！");
+								}
+	
+							}else{
+								if(Double.doubleToLongBits(Double.parseDouble(price)*Double.parseDouble(number))==Double.doubleToLongBits(Double.parseDouble(money))){
 									real_pay += Double.parseDouble(price)*Double.parseDouble(number);
 									retu.add("商品"+cid+",下单成功");
+								}else{
+									result.setSuccess(false);
+									result.getResult().put("error", "支付系统金额错误，请稍后重试或联系客服！");
 								}
+								
 							}
 						}else{
 							retu.add("商品"+cid+",已下架");
 						}
-					}else{
-						result.setSuccess(false);
-						result.getResult().put("error", "支付系统金额错误，请稍后重试或联系客服！");
 					}
 				}else{
 					retu.add("无此商品"+cid);
 				}
 			}
 			result.getResult().put("data",retu);
-			System.out.println("total_pay"+total_pay);
-			System.out.println("real_pay"+real_pay);
-			System.out.println(Double.doubleToLongBits(total_pay)!=Double.doubleToLongBits(real_pay));
 			if(Double.doubleToLongBits(total_pay)!=Double.doubleToLongBits(real_pay)){
 				result.setSuccess(false);
 				result.getResult().put("error","支付系统金额错误，请稍后重试或联系客服！");

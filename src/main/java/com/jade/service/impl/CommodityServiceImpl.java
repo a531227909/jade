@@ -450,7 +450,6 @@ public class CommodityServiceImpl implements commodityService{
 					list1.add(mapNo);
 					result.getResult().put("hot", list1);
 			}
-			System.out.println(account);
 			User user = userMapper.selectByPrimaryKey(account);
 			CommodityExample commodityExample = new CommodityExample();
 			commodityExample.setOrderByClause("isdel DESC");

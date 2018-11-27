@@ -11,7 +11,9 @@
   </select>
   
   <select id="selectLastByAccount" resultType="com.jade.mod.CustomerService" parameterType="java.lang.String">
-	select * from (SELECT customer_service_id,customer_service,account,content,is_read,MAX(create_time) create_time FROM customer_service  GROUP BY account ORDER BY create_time desc) as a
+	select customer_service_id,customer_service,account,content,is_read,create_time from
+	(SELECT customer_service_id,customer_service,account,content,is_read,create_time FROM customer_service as x where create_time =
+	(select max(create_time) from customer_service y where x.account=y.account) GROUP BY account ORDER BY create_time desc) as a
 	where
 		<if test="account != null and account != ''">
 			a.account = #{account,jdbcType=VARCHAR} and
@@ -20,7 +22,7 @@
 			a.is_read= #{is_read,jdbcType=VARCHAR} and
 		</if>
 	customer_service_id <![CDATA[ <= ]]>
-	(SELECT customer_service_id FROM customer_service ORDER BY customer_service_id desc LIMIT ${pageAmount},1) ORDER BY customer_service_id desc LIMIT ${pageSize}
+	(SELECT customer_service_id FROM customer_service ORDER BY customer_service_id desc LIMIT ${pageAmount},1) ORDER BY is_read desc,create_time desc LIMIT ${pageSize}
   </select>
   
   <select id="selectLastByAccountCount" resultType="java.lang.Integer" parameterType="java.lang.String">

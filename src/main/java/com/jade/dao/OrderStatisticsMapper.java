@@ -13,6 +13,6 @@ public interface OrderStatisticsMapper {
     List<Uorder> selectOrderStatisticsByDate(@Param("account")String account, @Param("startTime")String startTime, @Param("endTime")String endTime,
     		@Param("pageAmount")String pageAmount, @Param("pageSize")String pageSize);
     
-    int selectOrderCount(@Param("startTime")String startTime, @Param("endTime")String endTime);
+    int selectOrderCount(@Param("account")String account, @Param("startTime")String startTime, @Param("endTime")String endTime);
     
 }

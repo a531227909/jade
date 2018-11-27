@@ -103,10 +103,11 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 		String pageAmount = String.valueOf((Integer.parseInt(page)-1)*Integer.parseInt(pageSize));
 		List<CustomerService> customerServices = customerServiceMapper.selectLastByAccount(account, is_read, pageAmount, pageSize);
 		int allCount = customerServiceMapper.selectLastByAccountCount(account, is_read);
+		float num = (allCount-1)/Integer.parseInt(pageSize)+1;
 		result.setSuccess(true);
 		result.getResult().put("data", customerServices);
 		result.getResult().put("totalData", allCount);
-		result.getResult().put("pages", String.valueOf(allCount/Integer.parseInt(pageSize)+1));
+		result.getResult().put("pages", Integer.toString((int) Math.floor(num)));
 		return result;
 	}
 	

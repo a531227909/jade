@@ -13,6 +13,9 @@
   
   <select id="selectOrderCount" resultType="java.lang.Integer" parameterType="java.lang.String">
 	SELECT count(*) FROM u_order WHERE order_time BETWEEN #{startTime} and #{endTime}
+	<if test="account != null and account != ''">
+		and account = #{account,jdbcType=VARCHAR}
+	</if>
   </select>
   
 </mapper>
