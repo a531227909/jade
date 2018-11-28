@@ -174,7 +174,6 @@ public class UserPayServiceImpl implements UserPayService{
 		
 		try {
 			json = XML2JSON.documentToJSONObject(resultStr);
-			System.out.println(json.toString());
 		} catch (DocumentException e) {
 			result.setSuccess(false);
 			result.getResult().put("error", "支付系统故障，请稍后重试或联系客服！");
@@ -202,7 +201,6 @@ public class UserPayServiceImpl implements UserPayService{
 		WXPay.put("noncestr", nonceStr);
 		WXPay.put("timestamp", timestamp);
 		WXPay.put("sign", SignUtils.buildSign(payDatas, key));
-		System.out.println(WXPay.toString());
 
 		if(json.get("return_code").equals("SUCCESS")){
 			if(json.get("result_code").equals("SUCCESS")){
