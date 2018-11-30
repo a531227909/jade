@@ -141,7 +141,7 @@ public class UserPayServiceImpl implements UserPayService{
 		String key = "9f450b70ea57630a3336e44ac7778cd0";
 		String callbackurl = "http://3s.dkys.org:18037/jade/callback/notify/weixin.action";
 		String postUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-		String paymoney = "1";
+		String paymoney = String.valueOf(total_pay);
         //随机串
         String nonceStr = PayUtil.generateUUID();
         String clientIp = "127.0.0.1";
