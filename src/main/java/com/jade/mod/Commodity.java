@@ -39,6 +39,8 @@ public class Commodity implements Serializable {
     private String status;
 
     private String isdel;
+    
+    private String style;
 
     private static final long serialVersionUID = 1L;
 
@@ -185,8 +187,16 @@ public class Commodity implements Serializable {
     public void setIsdel(String isdel) {
         this.isdel = isdel == null ? null : isdel.trim();
     }
+    
+    public String getStyle() {
+		return style;
+	}
 
-    @Override
+	public void setStyle(String style) {
+		this.style = style;
+	}
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
@@ -210,6 +220,7 @@ public class Commodity implements Serializable {
         sb.append(", commodityimg=").append(commodityimg);
         sb.append(", status=").append(status);
         sb.append(", isdel=").append(isdel);
+        sb.append(", style=").append(style);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -244,7 +255,8 @@ public class Commodity implements Serializable {
             && (this.getFiguredescribe() == null ? other.getFiguredescribe() == null : this.getFiguredescribe().equals(other.getFiguredescribe()))
             && (this.getCommodityimg() == null ? other.getCommodityimg() == null : this.getCommodityimg().equals(other.getCommodityimg()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getIsdel() == null ? other.getIsdel() == null : this.getIsdel().equals(other.getIsdel()));
+            && (this.getIsdel() == null ? other.getIsdel() == null : this.getIsdel().equals(other.getIsdel()))
+            && (this.getStyle() == null ? other.getStyle() == null : this.getStyle().equals(other.getStyle()));
     }
 
     @Override
@@ -269,6 +281,7 @@ public class Commodity implements Serializable {
         result = prime * result + ((getCommodityimg() == null) ? 0 : getCommodityimg().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getIsdel() == null) ? 0 : getIsdel().hashCode());
+        result = prime * result + ((getStyle() == null) ? 0 : getStyle().hashCode());
         return result;
     }
 }

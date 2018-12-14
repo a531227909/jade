@@ -16,6 +16,7 @@
 //import org.junit.Test;
 //
 //import com.jade.douya.SslContextUtils;
+//import com.jade.uitil.PriceUtils;
 //
 //import net.sf.json.JSONObject;
 //
@@ -107,6 +108,12 @@
 //		String resultStr = "{'body':{},'heard':{'code':'1007','mag':'暂无可用付款码'}}";
 //		JSONObject json = JSONObject.fromObject(resultStr);
 //		System.out.println(JSONObject.fromObject(json.get("body")));
+//	}
+//	
+//	@Test
+//	public void test005(){
+//		System.out.println(PriceUtils.getOnePrice("0,30,50,100-10,9,8,5"));
+//		System.out.println(PriceUtils.getPayPrice("0,30,50,100-10,9,8,5", "101"));
 //	}
 //
 //}
