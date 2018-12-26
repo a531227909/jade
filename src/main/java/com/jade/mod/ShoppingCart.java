@@ -12,6 +12,8 @@ public class ShoppingCart implements Serializable {
     private String name;
 
     private String price;
+    
+    private String size;
 
     private String color;
 
@@ -65,7 +67,15 @@ public class ShoppingCart implements Serializable {
         this.price = price == null ? null : price.trim();
     }
 
-    public String getColor() {
+    public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getColor() {
         return color;
     }
 
@@ -116,6 +126,7 @@ public class ShoppingCart implements Serializable {
         sb.append(", sid=").append(sid);
         sb.append(", name=").append(name);
         sb.append(", price=").append(price);
+        sb.append(", size=").append(size);
         sb.append(", color=").append(color);
         sb.append(", number=").append(number);
         sb.append(", img=").append(img);
@@ -143,6 +154,7 @@ public class ShoppingCart implements Serializable {
             && (this.getSid() == null ? other.getSid() == null : this.getSid().equals(other.getSid()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getPrice() == null ? other.getPrice() == null : this.getPrice().equals(other.getPrice()))
+            && (this.getSize() == null ? other.getSize() == null : this.getSize().equals(other.getSize()))
             && (this.getColor() == null ? other.getColor() == null : this.getColor().equals(other.getColor()))
             && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
             && (this.getImg() == null ? other.getImg() == null : this.getImg().equals(other.getImg()))
@@ -159,6 +171,7 @@ public class ShoppingCart implements Serializable {
         result = prime * result + ((getSid() == null) ? 0 : getSid().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getPrice() == null) ? 0 : getPrice().hashCode());
+        result = prime * result + ((getSize() == null) ? 0 : getSize().hashCode());
         result = prime * result + ((getColor() == null) ? 0 : getColor().hashCode());
         result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
         result = prime * result + ((getImg() == null) ? 0 : getImg().hashCode());

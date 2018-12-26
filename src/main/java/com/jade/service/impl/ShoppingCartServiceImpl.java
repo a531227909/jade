@@ -92,21 +92,41 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	}
 
 	@Override
-	public Result insertShoppingCart(String cid, String number,
-			String account) {
+	public Result insertShoppingCart(String cid, String number, String account, String size, String color) {
 		Result result = new Result();
 		try {
 			Commodity shopping = comMapper.selectByPrimaryKey(cid);
-			ShoppingCart sc = shoppingCartMapper.selectByCidAccount(cid, account);
-			if(!(sc==null||sc.equals(""))){
-				number = String.valueOf(Integer.parseInt(number)+Integer.parseInt(sc.getNumber()));
-				sc.setNumber(number);
-				shoppingCartMapper.updateByPrimaryKeySelective(sc);
+			List<ShoppingCart> scs = shoppingCartMapper.selectByCidAndAccount(cid, account);
+			if(!(scs==null||scs.equals(""))){
+				boolean is_inCar = false;
+				for(ShoppingCart c : scs){
+					if(c.getColor().equals(color)&&c.getSize().equals(size)){
+						number = String.valueOf(Integer.parseInt(number)+Integer.parseInt(c.getNumber()));
+						c.setNumber(number);
+						shoppingCartMapper.updateByPrimaryKeySelective(c);
+						is_inCar = true;
+					}
+				}
+				if(!is_inCar){
+					ShoppingCart shoppingCart = new ShoppingCart();
+					shoppingCart.setAccount(account);
+					shoppingCart.setCid(cid);
+					shoppingCart.setSize(size);
+					shoppingCart.setColor(color);
+					shoppingCart.setId(UuidUtil.get32UUID());
+					shoppingCart.setImg(shopping.getCommodityimg());
+					shoppingCart.setName(shopping.getName());
+					shoppingCart.setNumber(number);
+					shoppingCart.setPrice(shopping.getPrice().toString());
+					shoppingCart.setSid(shopping.getSid());
+					shoppingCartMapper.insert(shoppingCart);
+				}
 			}else{
 				ShoppingCart shoppingCart = new ShoppingCart();
 				shoppingCart.setAccount(account);
 				shoppingCart.setCid(cid);
-				shoppingCart.setColor(shopping.getColor());
+				shoppingCart.setSize(size);
+				shoppingCart.setColor(color);
 				shoppingCart.setId(UuidUtil.get32UUID());
 				shoppingCart.setImg(shopping.getCommodityimg());
 				shoppingCart.setName(shopping.getName());
@@ -141,10 +161,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	}
 
 	@Override
-	public Result updateShoppingCart(String cid, String number, String account) {
+	public Result updateShoppingCart(String id, String cid, String number, String account) {
 		Result result = new Result();
 		try {
-			ShoppingCart sc = shoppingCartMapper.selectByCidAccount(cid, account);
+			ShoppingCart sc = shoppingCartMapper.selectByPrimaryKey(id);
 			if(!(sc==null||sc.equals(""))){
 				sc.setNumber(number);
 				shoppingCartMapper.updateByPrimaryKeySelective(sc);

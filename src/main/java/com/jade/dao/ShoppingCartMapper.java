@@ -23,6 +23,8 @@ public interface ShoppingCartMapper {
 
     ShoppingCart selectByPrimaryKey(String id);
     
+    List<ShoppingCart> selectByCidAndAccount(@Param("cid")String cid, @Param("account") String account);
+    
     ShoppingCart selectByCidAccount(@Param("cid")String cid, @Param("account") String account);
 
     int updateByExampleSelective(@Param("record") ShoppingCart record, @Param("example") ShoppingCartExample example);

@@ -4,6 +4,9 @@
 //import java.io.InputStreamReader;
 //import java.net.HttpURLConnection;
 //import java.net.URL;
+//import java.text.DateFormat;
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
 //
 //import javax.net.ssl.HttpsURLConnection;
 //
@@ -114,6 +117,15 @@
 //	public void test005(){
 //		System.out.println(PriceUtils.getOnePrice("0,30,50,100-10,9,8,5"));
 //		System.out.println(PriceUtils.getPayPrice("0,30,50,100-10,9,8,5", "101"));
+//	}
+//	
+//	@Test
+//	public void test006(){
+//		Date today = new Date();
+//		Date yesterday = new Date(today.getTime() - 86400000L);
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+//		System.out.println(sdf.format(today));
+//		System.out.println(sdf.format(yesterday));
 //	}
 //
 //}

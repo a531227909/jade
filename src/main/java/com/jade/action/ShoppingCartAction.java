@@ -40,10 +40,10 @@ public class ShoppingCartAction {
 	 * @return
 	 */
 	@RequestMapping(value="/insertShoppingCart.action",method=RequestMethod.POST)
-	public @ResponseBody Result insertShoppingCart(String cid, String number,
+	public @ResponseBody Result insertShoppingCart(String cid, String number,String size, String color,
 			HttpSession session) {
 		String account = (String) session.getAttribute("account");
-		return shoppingCartService.insertShoppingCart(cid, number, account);
+		return shoppingCartService.insertShoppingCart(cid, number, account, size, color);
 	}
 	/**
 	 * 删除购物车
@@ -61,9 +61,9 @@ public class ShoppingCartAction {
 	 * @return
 	 */
 	@RequestMapping(value="/updateShoppingCart.action",method=RequestMethod.POST)
-	public @ResponseBody Result updateShoppingCart(String cid, String number,
+	public @ResponseBody Result updateShoppingCart(String id, String cid, String number,
 			HttpSession session) {
-		String account = (String) session.getAttribute("account");
-		return shoppingCartService.updateShoppingCart(cid, number, account);
+		String account = (String) session.getAttribute("account"); 
+		return shoppingCartService.updateShoppingCart(id, cid, number, account);
 	}
 }
