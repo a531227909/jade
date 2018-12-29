@@ -18,6 +18,10 @@ public class Uorder implements Serializable {
     private String sid;
 
     private String rid;
+    
+    private String color;
+    
+    private String size;
 
     private Date orderTime;
     
@@ -101,7 +105,23 @@ public class Uorder implements Serializable {
         this.cid = cid == null ? null : cid.trim();
     }
 
-    public String getType() {
+    public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getType() {
         return type;
     }
 
@@ -196,15 +216,15 @@ public class Uorder implements Serializable {
 	public void setUser_coupon_money(String user_coupon_money) {
 		this.user_coupon_money = user_coupon_money;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Uorder [id=" + id + ", orderId=" + orderId + ", order_id=" + order_id + ", cid=" + cid + ", type="
-				+ type + ", sid=" + sid + ", rid=" + rid + ", orderTime=" + orderTime + ", order_time=" + order_time
-				+ ", recevingTime=" + recevingTime + ", receving_time=" + receving_time + ", endTime=" + endTime
-				+ ", end_time=" + end_time + ", account=" + account + ", reserve=" + reserve + ", number=" + number
-				+ ", money=" + money + ", user_coupon_id=" + user_coupon_id + ", user_coupon_money=" + user_coupon_money
-				+ "]";
+				+ type + ", sid=" + sid + ", rid=" + rid + ", color=" + color + ", size=" + size + ", orderTime="
+				+ orderTime + ", order_time=" + order_time + ", recevingTime=" + recevingTime + ", receving_time="
+				+ receving_time + ", endTime=" + endTime + ", end_time=" + end_time + ", account=" + account
+				+ ", reserve=" + reserve + ", number=" + number + ", money=" + money + ", user_coupon_id="
+				+ user_coupon_id + ", user_coupon_money=" + user_coupon_money + "]";
 	}
 
 	@Override
@@ -222,6 +242,8 @@ public class Uorder implements Serializable {
 		result = prime * result + ((orderTime == null) ? 0 : orderTime.hashCode());
 		result = prime * result + ((order_id == null) ? 0 : order_id.hashCode());
 		result = prime * result + ((order_time == null) ? 0 : order_time.hashCode());
+		result = prime * result + ((color == null) ? 0 : color.hashCode());
+		result = prime * result + ((size == null) ? 0 : size.hashCode());
 		result = prime * result + ((recevingTime == null) ? 0 : recevingTime.hashCode());
 		result = prime * result + ((receving_time == null) ? 0 : receving_time.hashCode());
 		result = prime * result + ((reserve == null) ? 0 : reserve.hashCode());
@@ -296,6 +318,16 @@ public class Uorder implements Serializable {
 			if (other.order_time != null)
 				return false;
 		} else if (!order_time.equals(other.order_time))
+			return false;
+		if (color == null) {
+			if (other.color != null)
+				return false;
+		} else if (!color.equals(other.color))
+			return false;
+		if (size == null) {
+			if (other.size != null)
+				return false;
+		} else if (!size.equals(other.size))
 			return false;
 		if (recevingTime == null) {
 			if (other.recevingTime != null)

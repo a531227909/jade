@@ -43,7 +43,7 @@ public class UOrderAction {
 	public @ResponseBody Result insertOrderByCart(@RequestBody JSONObject data, HttpSession session){
 		String account = (String) session.getAttribute("account");
 		data.put("account", account);
-		System.out.println(data.toString());
+//		System.out.println(data.toString());
 		return userPayService.pay(data, account);
 //			return uOrderService.insertOrderByCart(data, account);
 		

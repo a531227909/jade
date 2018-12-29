@@ -218,7 +218,6 @@ public class UOrderServiceImpl implements UOrderService{
 						System.out.println("Key = " + key+"value = " + map.get(key));
 					}
 				}
-				System.out.println(list);
 				
 					if("3".equals(list.get(0).get("oType"))){
 						int type3 = uOrderMapper.selectByType3(list.get(0).get("oId").toString());
@@ -287,13 +286,23 @@ public class UOrderServiceImpl implements UOrderService{
 			//List<Map<String,Object>> list = (List<Map<String, Object>>) data.get("data");
 			//JSONArray jsonArray = data.getJSONArray("data");
 			JSONArray jsonArray = data.getJSONArray("data");
+			String datas = data.getString("data");
 			List<Object> retu = new ArrayList<Object>();
-			List<IdUtil> list = (List) JSONArray.toCollection(jsonArray, IdUtil.class); 
+//			List<IdUtil> list = (List) JSONArray.toCollection(jsonArray, IdUtil.class);
+			List<IdUtil> list = com.alibaba.fastjson.JSONObject.parseArray(datas,IdUtil.class);
 			//Map<String,Object> map = new HashMap<String, Object>();
 			//System.out.println("******"+list.get(0));
+			
+//			String datas = data.getString("data");
+//			datas = datas.substring(1, datas.length()-1);
+//			JSONObject json = JSONObject.fromObject(datas);
+//			String color = json.getString("color");
+//			String size = json.getString("size");
+//			System.out.println(color+":"+size);
 			int total = 0 ;
 			for(int i=0;i<list.size();i++){
 				//JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+				String id = list.get(i).getId();
 				String cid =  list.get(i).getCid();
 				String rid =  list.get(i).getRid();
 				String sid =  list.get(i).getSid();
@@ -301,6 +310,8 @@ public class UOrderServiceImpl implements UOrderService{
 				String money = list.get(i).getMoney();
 				String user_coupon_id = list.get(i).getUser_coupon_id();
 				String user_coupon_money = list.get(i).getUser_coupon_money();
+				String color = list.get(i).getColor();
+				String size = list.get(i).getSize();
 				Commodity commodity = comMapper.selectByPrimaryKey(cid);
 				if(commodity!=null){
 					
@@ -314,7 +325,8 @@ public class UOrderServiceImpl implements UOrderService{
 						criteria.andSidEqualTo(sid);
 						criteria.andCidEqualTo(cid);
 						//List<ShoppingCart> shoplist = shoppingMapper.selectByExample(cartExample);
-						shoppingMapper.deleteByExample(cartExample);
+//						shoppingMapper.deleteByExample(cartExample);
+						shoppingMapper.deleteByPrimaryKey(id);
 						Uorder uorder = new Uorder();
 						uorder.setOrderId(str2+str+str1);
 						uorder.setAccount(account);
@@ -322,6 +334,8 @@ public class UOrderServiceImpl implements UOrderService{
 						uorder.setOrderTime(new Date());
 						uorder.setRid(rid);
 						uorder.setSid(sid);
+						uorder.setColor(color);
+						uorder.setSize(size);
 						uorder.setType("1");
 						uorder.setNumber(number);
 						uorder.setMoney(money);
@@ -337,7 +351,6 @@ public class UOrderServiceImpl implements UOrderService{
 						
 					}else{
 						retu.add("商品"+cid+",已下架");
-						System.out.println("已下架");
 					}
 				}else{
 					result.setSuccess(true);

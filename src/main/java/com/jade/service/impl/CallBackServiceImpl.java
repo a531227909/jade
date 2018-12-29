@@ -190,7 +190,6 @@ public class CallBackServiceImpl implements CallBackService{
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
 					if(uOderData.getIs_callback().equals("1")){
 						result.setSuccess(true);
 						result.getResult().put("data", dataOfUOder.toString());

@@ -63,7 +63,7 @@ public class CommodityServiceImpl implements commodityService{
 				criteria.andAccountEqualTo(account);
 				criteria.andCidEqualTo(cid);
 				List<Collect> collect = collectMapper.selectByExample(collectExample);
-				System.out.println(cid);
+//				System.out.println(cid);
 				List<Map<String,Object>> commodity = commodityMapper.selectCommodityByCId(cid);
 				for(int i=0;i<commodity.size();i++){
 					if(null!=commodity.get(i).get("video")&&!"0".equals(commodity.get(i).get("video"))&&(commodity.get(i).get("video").toString()).indexOf(",00000000")!=-1){
@@ -90,7 +90,7 @@ public class CommodityServiceImpl implements commodityService{
 				}else{
 					commodity.get(0).put("collect", "未收藏");
 				}
-				System.out.println(commodity);
+//				System.out.println(commodity);
 				if(0<commodity.size()){
 					result.setSuccess(true);
 					result.setResult(commodity.get(0));

@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, cid, sid, name, price, color, number, img, account, reserve
+    id, cid, sid, name, price, size, color, number, img, account, reserve
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jade.mod.ShoppingCartExample" >
     select

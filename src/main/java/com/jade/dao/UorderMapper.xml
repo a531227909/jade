@@ -8,6 +8,8 @@
     <result column="sid" property="sid" jdbcType="VARCHAR" />
     <result column="rid" property="rid" jdbcType="VARCHAR" />
     <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
     <result column="receving_time" property="recevingTime" jdbcType="TIMESTAMP" />
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="account" property="account" jdbcType="VARCHAR" />
@@ -91,7 +93,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    order_id, cid, type, sid, rid, order_time, receving_time, end_time, account, reserve, user_coupon_id, money, user_coupon_money, number
+    order_id, cid, type, sid, rid, order_time, receving_time, end_time, account, reserve, user_coupon_id, money, user_coupon_money, number, color, size
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jade.mod.UorderExample" >
     select
@@ -117,7 +119,7 @@
   </select>
   
   <select id="getMyAllUOrder" resultType="map" parameterType="map" >
-   select u.type type, u.order_id oId,u.rid rId,u.cid cId,re.`name` rName,re.telephone rTelephone,co.`name` cName,u.order_time orderTime,u.number number,u.user_coupon_id user_coupon_id,u.money money,u.user_coupon_money user_coupon_money,
+   select u.type type, u.order_id oId,u.rid rId,u.cid cId,u.color color,u.size size,re.`name` rName,re.telephone rTelephone,co.`name` cName,u.order_time orderTime,u.number number,u.user_coupon_id user_coupon_id,u.money money,u.user_coupon_money user_coupon_money,
    u.receving_time recevingTime,u.end_time endTime,u.reserve closeTime,u.number number,co.color cColor,co.price cPrice,co.commodityImg img,co.isNoPackagemaill video
    		
    		from commodity co, receiving_note re, u_order u,
@@ -186,7 +188,7 @@
 		<![CDATA[where c.time <0 and b.type='2' AND b.cid = d.cid]]>
   </update>
    <select id="selectByOrderIdtoOne" resultType="map" parameterType="java.lang.String">
-	select a.order_id oId,a.order_time oTime,a.receving_time rTime,a.end_time eTime,a.number number,a.user_coupon_id user_coupon_id,a.money money,a.user_coupon_money user_coupon_money,c.`name` cName,
+	select a.order_id oId,a.order_time oTime,a.receving_time rTime,a.end_time eTime,a.number number,a.color color,a.size size,a.user_coupon_id user_coupon_id,a.money money,a.user_coupon_money user_coupon_money,c.`name` cName,
 	c.commodityImg img,c.price cPrice,c.color cColor,d.`name` sName,a.type oType,b.address rAddress,
 	b.`name` rName,b.city rCity,b.telephone rTelephone ,c.isNoPackagemaill video
 	
@@ -235,11 +237,11 @@
   </delete>
   <insert id="insert" parameterType="com.jade.mod.Uorder" useGeneratedKeys="true" keyProperty="id" >
     insert into u_order (order_id, cid, type, 
-      sid, rid, order_time, 
+      sid, rid, order_time, color, size,
       receving_time, end_time, account, 
       reserve,number,money,user_coupon_id,user_coupon_money)
     values (#{orderId,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{sid,jdbcType=VARCHAR}, #{rid,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, 
+      #{sid,jdbcType=VARCHAR}, #{rid,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, #{color,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, 
       #{recevingTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{account,jdbcType=VARCHAR}, 
       #{reserve,jdbcType=VARCHAR},#{number,jdbcType=VARCHAR},#{money,jdbcType=VARCHAR},
       #{user_coupon_id,jdbcType=VARCHAR},#{user_coupon_money,jdbcType=VARCHAR})

@@ -52,8 +52,7 @@ public class UserPayServiceImpl implements UserPayService{
 
 	@Override
 	public Result pay(JSONObject data, String account) {
-		
-//		{"total_pay":"总支付金额","data":[{"rid":"991ed679d3ce4a0f8eb0647b9a7e3793","sid":"yckj311049000",
+//		{"total_pay":"总支付金额","data":[{"id":"991ed679d","rid":"991ed679d3ce4a0f8eb0647b9a7e3793","sid":"yckj311049000",
 //			"cid":"jade20181031133949","number":"数量",
 //			"money":"此商品实际支付金额","user_coupon_id":"用户优惠券ID","user_coupon_money":"用户优惠金额"}]}
 		Result result = new Result();
@@ -92,7 +91,7 @@ public class UserPayServiceImpl implements UserPayService{
 							}
 						}else{
 							result.setSuccess(false);
-							result.getResult().put("error", "支付系统金额错误，请稍后重试或联系客服！");
+							result.getResult().put("error", "1支付系统金额错误，请稍后重试或联系客服！");
 						}
 					}else{
 						if(!commodity.getStatus().equals("0")){
@@ -104,7 +103,7 @@ public class UserPayServiceImpl implements UserPayService{
 									retu.add("商品"+cid+",下单成功");
 								}else{
 									result.setSuccess(false);
-									result.getResult().put("error", "支付系统金额错误，请稍后重试或联系客服！");
+									result.getResult().put("error", "2支付系统金额错误，请稍后重试或联系客服！");
 								}
 	
 							}else{
@@ -113,7 +112,7 @@ public class UserPayServiceImpl implements UserPayService{
 									retu.add("商品"+cid+",下单成功");
 								}else{
 									result.setSuccess(false);
-									result.getResult().put("error", "支付系统金额错误，请稍后重试或联系客服！");
+									result.getResult().put("error", "3支付系统金额错误，请稍后重试或联系客服！");
 								}
 								
 							}
@@ -139,10 +138,11 @@ public class UserPayServiceImpl implements UserPayService{
 		String appid = "wx4f027d7c3152b599";
 		String mchId = "1516385391";
 		String key = "9f450b70ea57630a3336e44ac7778cd0";
-		String callbackurl = "http://3s.dkys.org:18037/jade/callback/notify/weixin.action";
+		String callbackurl = "http://2i1b245203.imwork.net:39368/jade/callback/notify/weixin.action";
+//		String callbackurl = "http://39.108.121.3:8088/jade/callback/notify/weixin.action";
 		String postUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 //		String paymoney = String.valueOf(total_pay);
-		String paymoney = "1";
+		String paymoney = "0.01";
         //随机串
         String nonceStr = PayUtil.generateUUID();
         String clientIp = "127.0.0.1";
