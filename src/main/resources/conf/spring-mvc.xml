@@ -78,6 +78,7 @@
 	 	<bean class="com.jade.uitil.interceptor.AuthHandlerInterceptor">
 			<property name="allowUris">
 				<list>
+					<value>/phoneCode/getCode.action</value>
 					<value>/commodity/getCondition.action</value>
 					<value>/evaluate/selectEvaluate.action</value>
 					<value>/user/outLogin.action</value>
